@@ -1,0 +1,14 @@
+env
+*.pyc
+config.py
+*__pycache__
+secrets.txt
+*.python-version
+trellis/scratch
+trellis/cache
+*.sublime-*
+env-*
+.ipynb_checkpoints
+*creds.yaml
+*credentials.yaml
+credentials
