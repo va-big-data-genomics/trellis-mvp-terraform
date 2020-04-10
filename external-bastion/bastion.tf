@@ -7,13 +7,8 @@
 |
 */
 
-// Variables
-variable "bastion-ip" {
-    type = string
-}
-
 resource "google_compute_instance" "bastion-node" {
-    name = "bastion-external"
+    name = "bastion-external-${random_string.suffix.result}"
     machine_type = "n1-standard-1"
     zone = "us-west1-a"
     
@@ -25,15 +20,13 @@ resource "google_compute_instance" "bastion-node" {
             size = "10"
         }
     }
-
-
     
     network_interface {
         network = google_compute_network.bastion-network.self_link
-        subnetwork = google_compute_subnetwork.bastion-us-west1.self_link
+        subnetwork = google_compute_subnetwork.bastion-subnet.self_link
 
         access_config {
-            nat_ip = var.bastion-ip
+           // nat_ip = var.bastion-ip
         }
     }
 }
