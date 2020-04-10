@@ -1,6 +1,6 @@
 resource "google_compute_resource_policy" "daily_snapshot" {
   name   = "dailysnapshot"
-  region = "us-west1"
+  region = var.region
   snapshot_schedule_policy {
     schedule {
       daily_schedule {
