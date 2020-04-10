@@ -6,11 +6,6 @@
 |
 */
 
-// Variables
-variable "project" {
-    type = string
-}
-
 provider "google" {
   project = var.project
   region  = "us-west1"
