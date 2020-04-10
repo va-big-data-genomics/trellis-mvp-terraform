@@ -1,3 +1,8 @@
+# Ignore Terraform files that can include secrets
 */.terraform/*
 *.tfstate*
 *.tfvars
+
+# Ignore sublime config files
+*.sublime-project
+*.sublime-workspace
