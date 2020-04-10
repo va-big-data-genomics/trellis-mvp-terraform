@@ -26,3 +26,10 @@ resource "google_project_service" "app-engine" {
     disable_dependent_services = false
     disable_on_destroy = false
 }
+
+resource "google_project_service" "cloud-run" {
+    service = "run.googleapis.com"
+
+    disable_dependent_services = false
+    disable_on_destroy = false
+}
