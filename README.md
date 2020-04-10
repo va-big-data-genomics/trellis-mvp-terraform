@@ -38,3 +38,9 @@ terraform plan --var-file=my.tfvars
 ```
 terraform apply --var-file=my.tfvars
 ```
+
+5. Use the `destroy` command if you want to destroy terraformed resources.
+
+```
+terraform destroy --var-file=my.tfvars
+```
