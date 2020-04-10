@@ -99,11 +99,14 @@ terraform destroy --var-file=my.tfvars
 cd ../
 ```
 
-## E. Terraform remaining Trellis resources
-**From the root directory, navigate to the permanent resources Terraform module.**
+## E. Connect GitHub repositories to Cloud Build
+You will need to connect the Trellis functions repository as well as the GATK repo to Cloud Build. From the GCP web console navigate to the Cloud Build section, and select the Triggers pane. At the top, click "CONNECT REPOSITORY" and follow the instructions to connect both repos. The repository information is ddescribed in the `variables.tf` object.
+
+## F. Terraform remaining Trellis resources
+**From the root directory, navigate to the primary trellis Terraform module.**
 
 ```
-cd perma-resources
+cd trellis
 ```
 
 1. **Create a tfvars file.**
@@ -138,8 +141,8 @@ terraform apply --var-file=my.tfvars
 terraform destroy --var-file=my.tfvars
 ```
 
-## F. Add Cloud Functions Developer to Cloud Build service account
+## G. Add Cloud Functions Developer to Cloud Build service account
 Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-functions
 
-## G. Navigate to the Cloud Build console and activate all triggers.
+## H. Navigate to the Cloud Build console and activate all triggers.
 In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to manually activate them the first time.
