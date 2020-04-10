@@ -7,7 +7,7 @@ Trellis MVP Terraform configurations
 https://learn.hashicorp.com/terraform/getting-started/install.html
 
 ## B. Deploy external bastion node (optional)
-The external bastion is deployed to a separate network & project from Trellis. In order to access Trellis resources such as the database and AI notebook, users will first connect to the external bastion host, then hop to the bastion host inside the Trellis project & network, and then to the Trellis resource. If you are not handling high or medium risk data, you can probably skip this and go to step 2. 
+The external bastion is deployed to a separate network & project from Trellis. In order to access Trellis resources such as the database and AI notebook, users will first connect to the external bastion host, then hop to the bastion host inside the Trellis project & network, and then to the Trellis resource. If you are not handling high or medium risk data, you can probably skip this and go to step C. 
 
 **From the repository root directory, navigate to the external-bastion Terraform module.**
 
