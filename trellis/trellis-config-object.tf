@@ -18,7 +18,7 @@ DATA_BUCKETS:
         - ${var.project}-from-personalis
         - ${var.project}-from-personalis-phase3
         - ${var.project}-from-personalis-phase3-logs
-TRELLIS_BUCKET: ${google_storage_bucket.trellis.name}
+TRELLIS_BUCKET: google_storage_bucket.trellis.name
 BUCKET_PAGE_PREFIX: phase3/list-bucket-page
 MATCHED_BLOBS_PREFIX: phase3/match-object-patterns
 
