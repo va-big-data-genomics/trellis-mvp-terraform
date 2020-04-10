@@ -8,7 +8,8 @@
 */
 
 resource "google_cloudbuild_trigger" "launch-bam-fastqc" {
-    provider = google-beta
+    name        = "gcf-launch-bam-fastqc"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
@@ -32,7 +33,8 @@ resource "google_cloudbuild_trigger" "launch-bam-fastqc" {
 }
 
 resource "google_cloudbuild_trigger" "launch-flagstat" {
-    provider = google-beta
+    name        = "gcf-launch-flagstat"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
@@ -56,7 +58,8 @@ resource "google_cloudbuild_trigger" "launch-flagstat" {
 }
 
 resource "google_cloudbuild_trigger" "launch-vcfstats" {
-    provider = google-beta
+    name        = "gcf-launch-vcfstats"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
@@ -80,7 +83,8 @@ resource "google_cloudbuild_trigger" "launch-vcfstats" {
 }
 
 resource "google_cloudbuild_trigger" "launch-text-to-table" {
-    provider = google-beta
+    name        = "gcf-launch-text-to-table"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
@@ -104,7 +108,8 @@ resource "google_cloudbuild_trigger" "launch-text-to-table" {
 }
 
 resource "google_cloudbuild_trigger" "bigquery-import-csv" {
-    provider = google-beta
+    name        = "gcf-bigquery-import-csv"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
@@ -128,7 +133,8 @@ resource "google_cloudbuild_trigger" "bigquery-import-csv" {
 }
 
 resource "google_cloudbuild_trigger" "bigquery-append-tsv" {
-    provider = google-beta
+    name        = "gcf-bigquery-append-tsv"
+    provider    = google-beta
     
     github {
         owner = var.github-owner
