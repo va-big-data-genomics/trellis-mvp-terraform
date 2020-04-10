@@ -99,8 +99,47 @@ terraform destroy --var-file=my.tfvars
 cd ../
 ```
 
-## D. Create database persistent disk
-TODO
-
 ## E. Terraform remaining Trellis resources
-TODO
+**From the root directory, navigate to the permanent resources Terraform module.**
+
+```
+cd perma-resources
+```
+
+1. **Create a tfvars file.**
+There are only two variables which do not have default values; `project` and `external-bastion-ip`. The external bastion IP refers to the bastion node you created in step B. If you skipped that step, you'll need to comment out the `trellis-allow-bastion-bastion` firewall rule in `network.tf` & commend out this variable from `variables.tf`. If you would like to change the default values of other variables specified in `variables.tf` you can also add those key/value pairs to the tfvars file.
+
+```
+printf 'project="{your-project-name}"\nexternal-bastion-ip="{your-bastion-ip}"' > my.tfvars
+```
+
+2. **Initialize Terraform.**
+
+```
+terraform init
+```
+
+3. **Plan terraform.**
+Run the 'terraform plan' operation and fix any issues that are identified.
+
+```
+terraform plan --var-file=my.tfvars 
+```
+
+4. **Apply terraforming.**
+
+```
+terraform apply --var-file=my.tfvars
+```
+
+5. (optional) Use the `destroy` command if you want to destroy terraformed resources.
+
+```
+terraform destroy --var-file=my.tfvars
+```
+
+## F. Add Cloud Functions Developer to Cloud Build service account
+Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-functions
+
+## G. Navigate to the Cloud Build console and activate all triggers.
+In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to manually activate them the first time.
