@@ -10,34 +10,35 @@
 |
 */
 
-// Variables
-variable "scg-ip" {
-    type = string
+resource "random_string" "suffix" {
+  length  = 4
+  upper   = false
+  special = false
 }
 
-// Create network
+// Create bastion network
 resource "google_compute_network" "bastion-network" {
-    name = "trellis-bastion"
+    name = "trellis-bastion-${random_string.suffix.result}"
     auto_create_subnetworks = false
 }    
 
-// Create subnetwork
-resource "google_compute_subnetwork" "bastion-us-west1" {
-    name            = "trellis-bastion-us-west1"
+// Create bastion subnet
+resource "google_compute_subnetwork" "bastion-subnet" {
+    name            = "bastion-${random_string.suffix.result}-us-west1"
     ip_cidr_range   = "10.0.0.0/9"
     region          = "us-west1"
     network         = google_compute_network.bastion-network.self_link
 }
 
 // Create firewall rule
-resource "google_compute_firewall" "trellis-allow-scg-bastion-ssh" {
-    name = "trellis-allow-scg-bastion"
+resource "google_compute_firewall" "trellis-allow-local-ssh-bastion" {
+    name = "trellis-allow-local-ssh-bastion"
     network = google_compute_network.bastion-network.self_link
 
     allow {
         protocol = "tcp"
         ports = ["22"]
     }
-    source_ranges = [var.scg-ip]
+    source_ranges = [var.local-ip]
     target_tags = ["bastion"]
 }
