@@ -3,10 +3,10 @@ Trellis MVP Terraform configurations
 
 # Terraforming instructions
 
-## A Install Terraform
+## A. Install Terraform
 https://learn.hashicorp.com/terraform/getting-started/install.html
 
-## B Deploy external bastion node (optional)
+## B. Deploy external bastion node (optional)
 The external bastion is deployed to a separate network & project from Trellis. In order to access Trellis resources such as the database and AI notebook, users will first connect to the external bastion host, then hop to the bastion host inside the Trellis project & network, and then to the Trellis resource. If you are not handling high or medium risk data, you can probably skip this and go to step 2. 
 
 **From the repository root directory, navigate to the external-bastion Terraform module.**
@@ -52,7 +52,7 @@ terraform destroy --var-file=my.tfvars
 ```
 cd ../
 ```
-## C Deploy permanent resources
+## C. Deploy permanent resources
 Any resources deployed by Terraform can also be changed or destroyed by Terraform. There are some resources, particularly data storage ones, which should never be destroyed. To guard against destruction or prevent Terraform errors due to inability to destroy them, we deploy them separately from the main Trellis resources.
 
 **From the root directory, navigate to the permanent resources Terraform module.**
@@ -98,3 +98,9 @@ terraform destroy --var-file=my.tfvars
 ```
 cd ../
 ```
+
+## D. Create database persistent disk
+TODO
+
+## E. Terraform remaining Trellis resources
+TODO
