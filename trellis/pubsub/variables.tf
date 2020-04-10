@@ -49,7 +49,7 @@ variable "topic_name" {
 
 variable "topic_labels" {
   type        = map(string)
-  default     = {"user":"trellis"}
+  default     = {"user":"trellis", "created_by":"terraform"}
   description = "A set of key/value label pairs to assign to the pubsub topic."
 }
 
