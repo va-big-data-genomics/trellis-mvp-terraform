@@ -32,13 +32,6 @@ module "gce-container" {
     # Declare volumes to be mounted
     # This is similar to how Docker volumes are mounted
     volumeMounts = [
-      /* Commented out
-      {
-        mountPath = "/cache"
-        name      = "tempfs-0"
-        readOnly  = false
-      },
-      */
       {
         mountPath = "/data"
         name      = "data-disk-0"
@@ -49,15 +42,6 @@ module "gce-container" {
 
   # Declare the volumes
   volumes = [
-    /*
-    {
-      name = "tempfs-0"
-
-      emptyDir = {
-        medium = "Memory"
-      }
-    },
-    */
     {
       name = "data-disk-0"
 
@@ -73,7 +57,7 @@ module "gce-container" {
 
 /* Create attached persistent disk
 resource "google_compute_disk" "neo4j-data-disk" {
-    name = "trellis-neo4j-db-disk"
+    name = "trellis-neo4j-data-disk"
     type = "pd-standard"
     size = 10
     image = "centos-6-v20200309"
@@ -87,7 +71,7 @@ resource "google_compute_disk" "neo4j-data-disk" {
 // Create Neo4j instance
 resource "google_compute_instance" "neo4j-database" {
     name = "trellis-neo4j-db"
-    machine_type = "n1-highmem-8"
+    machine_type = "custom-12-71680"
     
     allow_stopping_for_update = true
 
