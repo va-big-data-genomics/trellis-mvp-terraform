@@ -7,6 +7,14 @@ variable "external-bastion-ip" {
     type = string
 }
 
+variable "db-user" {
+    type = string
+}
+
+variable "db-passphrase" {
+    type = string
+}
+
 // Variables with default values
 variable "region" {
     type = string
@@ -16,6 +24,11 @@ variable "region" {
 variable "zone" {
     type = string
     default = "us-west1-b"
+}
+
+variable "app-engine-region" {
+    type = string
+    default = "us-west2"
 }
 
 variable "data-group" {
