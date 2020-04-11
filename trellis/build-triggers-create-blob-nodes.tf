@@ -98,7 +98,7 @@ resource "google_cloudbuild_trigger" "create-node-from-phase3-data-final" {
         _OPERATION_SHORT_NAME   = "final"
         _TRELLIS_BUCKET         = google_storage_bucket.trellis.name
         _TRIGGER_OPERATION      = "finalize"
-        _TRIGGER_RESOURCE       = "${var.project}-phase3-data"
+        _TRIGGER_RESOURCE       = "${var.project}-from-personalis-phase3-data"
         _DATA_GROUP             = "${var.data-group}"
     }
 }
@@ -130,7 +130,7 @@ resource "google_cloudbuild_trigger" "create-node-from-phase3-data-meta" {
         _OPERATION_SHORT_NAME   = "meta"
         _TRELLIS_BUCKET         = google_storage_bucket.trellis.name
         _TRIGGER_OPERATION      = "metadataUpdate"
-        _TRIGGER_RESOURCE       = "${var.project}-phase3-data"
+        _TRIGGER_RESOURCE       = "${var.project}-from-personalis-phase3-data"
         _DATA_GROUP             = "${var.data-group}"
     }
 }
