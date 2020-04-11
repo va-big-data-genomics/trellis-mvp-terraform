@@ -102,6 +102,9 @@ cd ../
 ## E. Connect GitHub repositories to Cloud Build
 You will need to connect the Trellis functions repository as well as the GATK repo to Cloud Build. From the GCP web console navigate to the Cloud Build section, and select the Triggers pane. At the top, click "CONNECT REPOSITORY" and follow the instructions to connect both repos. The repository information is ddescribed in the `variables.tf` object.
 
+## F. Create App Engine Application from web console
+Go to the App Engine page and click the button to create an app. If you have already created one, you may need to change the app-engine-region variable to match yours.
+
 ## F. Terraform remaining Trellis resources
 **From the root directory, navigate to the primary trellis Terraform module.**
 
@@ -110,10 +113,10 @@ cd trellis
 ```
 
 1. **Create a tfvars file.**
-There are only two variables which do not have default values; `project` and `external-bastion-ip`. The external bastion IP refers to the bastion node you created in step B. If you skipped that step, you'll need to comment out the `trellis-allow-bastion-bastion` firewall rule in `network.tf` & commend out this variable from `variables.tf`. If you would like to change the default values of other variables specified in `variables.tf` you can also add those key/value pairs to the tfvars file.
+There are only two variables which do not have default values; `project`, `external-bastion-ip`, `db-user`, and `db-passphrase`. The external bastion IP refers to the bastion node you created in step B. If you skipped that step, you'll need to comment out the `trellis-allow-bastion-bastion` firewall rule in `network.tf` & commend out this variable from `variables.tf`. If you would like to change the default values of other variables specified in `variables.tf` you can also add those key/value pairs to the tfvars file.
 
 ```
-printf 'project="{your-project-name}"\nexternal-bastion-ip="{your-bastion-ip}"' > my.tfvars
+printf 'project="{your-project-name}"\nexternal-bastion-ip="{your-bastion-ip}"\ndb-user="{your-user}"\ndb-passphrase="{your-passphrase}"' > my.tfvars
 ```
 
 2. **Initialize Terraform.**
@@ -146,3 +149,7 @@ Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/de
 
 ## H. Navigate to the Cloud Build console and activate all triggers.
 In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to manually activate them the first time.
+
+## I. Login to database via web browser & update username & password.
+
+## J. Add database indexes.
