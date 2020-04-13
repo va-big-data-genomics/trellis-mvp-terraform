@@ -48,7 +48,7 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-50" {
             "method": "VIEW",
             "labels": ["Sample", "Marker", "Cypher", "Query"],
             "sentFrom": "cron-trigger-fastq-to-ubam-50",
-            "publishTo": google_pubsub_topic.check-triggers.name
+            "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
         "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 50", 
@@ -106,7 +106,7 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-1" {
             "method": "VIEW",
             "labels": ["Sample", "Marker", "Cypher", "Query"],
             "sentFrom": "cron-trigger-fastq-to-ubam-1",
-            "publishTo": google_pubsub_topic.check-triggers.name
+            "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
         "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 1", 
