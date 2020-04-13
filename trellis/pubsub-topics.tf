@@ -42,11 +42,6 @@ resource "google_pubsub_topic" "db-query" {
     labels = {user = "trellis"}
 }
 
-resource "google_pubsub_topic" "db-query-index" {
-    name = "db-query-index"
-    labels = {user = "trellis"}
-}
-
 resource "google_pubsub_topic" "kill-job" {
     name = "kill-job"
     labels = {user = "trellis"}
@@ -89,11 +84,6 @@ resource "google_pubsub_topic" "launch-vcfstats" {
 
 resource "google_pubsub_topic" "list-bucket-page" {
     name = "list-bucket-page"
-    labels = {user = "trellis"}
-}
-
-resource "google_pubsub_topic" "match-blob-patterns" {
-    name = "match-blob-patterns"
     labels = {user = "trellis"}
 }
 
