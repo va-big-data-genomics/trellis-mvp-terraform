@@ -43,7 +43,10 @@ resource "google_cloudbuild_trigger" "match-blob-patterns" {
         }
     }
     
-    included_files = ["functions/match-blob-patterns/*"]
+    included_files = [
+                      "functions/match-blob-patterns/*",
+                      "config/${var.data-group}"
+    ]
 
     filename = "functions/match-blob-patterns/cloudbuild.yaml"
 
@@ -51,7 +54,7 @@ resource "google_cloudbuild_trigger" "match-blob-patterns" {
         _CREDENTIALS_BLOB   = google_storage_bucket_object.trellis-config.name
         _CREDENTIALS_BUCKET = google_storage_bucket.trellis.name
         _ENVIRONMENT        = "google-cloud"
-        _TRIGGER_TOPIC      = google_pubsub_topic.match-blob-patterns.name
+        _TRIGGER_RESOURCE   = google_storage_bucket.trellis.name 
         _DATA_GROUP         = "${var.data-group}"
     }
 }
@@ -76,7 +79,7 @@ resource "google_cloudbuild_trigger" "db-query-index" {
         _CREDENTIALS_BLOB   = google_storage_bucket_object.trellis-config.name
         _CREDENTIALS_BUCKET = google_storage_bucket.trellis.name
         _ENVIRONMENT        = "google-cloud"
-        _TRIGGER_TOPIC      = google_pubsub_topic.db-query-index.name
+        _TRIGGER_RESOURCE   = google_storage_bucket.trellis.name
     }
 }
 
