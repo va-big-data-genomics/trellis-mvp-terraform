@@ -25,6 +25,6 @@ resource "google_cloudbuild_trigger" "copy-gatk-to-trellis" {
 
     substitutions = {
         _BUCKET = google_storage_bucket.trellis.name
-        _PATH   = google_storage_bucket_object.trellis-config.name
+        _PATH   = "workflow-inputs"
     }
 }
