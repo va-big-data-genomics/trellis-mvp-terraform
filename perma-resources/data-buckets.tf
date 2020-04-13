@@ -9,7 +9,7 @@
 
 
 resource "google_storage_bucket" "phase3-data" {
-    name          = "${var.project}-from-personalis-phase3"
+    name          = "${var.project}-from-personalis-phase3-data"
     location      = var.region
     storage_class = "REGIONAL"
     labels        = {
@@ -32,7 +32,7 @@ EOT
 }
 
 resource "google_storage_bucket" "phase3-logs" {
-    name          = "${var.project}-from-personalis-logs"
+    name          = "${var.project}-from-personalis-phase3-logs"
     location      = var.region
     storage_class = "REGIONAL"
     labels = {
