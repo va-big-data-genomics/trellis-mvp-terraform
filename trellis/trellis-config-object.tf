@@ -18,7 +18,7 @@ DATA_BUCKETS:
         - ${var.project}-from-personalis
         - ${var.project}-from-personalis-phase3
         - ${var.project}-from-personalis-phase3-logs
-TRELLIS_BUCKET: google_storage_bucket.trellis.name
+TRELLIS_BUCKET: ${google_storage_bucket.trellis.name}
 BUCKET_PAGE_PREFIX: phase3/list-bucket-page
 MATCHED_BLOBS_PREFIX: phase3/match-object-patterns
 
@@ -26,13 +26,13 @@ MATCHED_BLOBS_PREFIX: phase3/match-object-patterns
 NEO4J_SCHEME: bolt
 NEO4J_HOST: ${google_compute_instance.neo4j-database.network_interface.0.network_ip}
 NEO4J_PORT: 7687
-NEO4J_USER: neo4j
-NEO4J_PASSPHRASE: LhkKB4L1U_dhYWR7yn5abl44Zmvych3fIMThdzyfeAu20S3_-dMJ3_P0R2K8t1NbxTf9-WWmKXeDJKH1O1copg
+NEO4J_USER: ${var.db-user}
+NEO4J_PASSPHRASE: ${var.db-passphrase}
 NEO4J_MAX_CONN: 20
 
 # Dsub variables
 DSUB_REGIONS: ${var.region}
-DSUB_OUT_BUCKET: ${var.project}-from-personalis-phase3
+DSUB_OUT_BUCKET: ${var.project}-from-personalis-phase3-data
 DSUB_LOG_BUCKET: ${var.project}-from-personalis-phase3-logs
 DSUB_OUT_ROOT: dsub
 DSUB_USER: trellis
