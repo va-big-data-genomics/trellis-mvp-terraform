@@ -71,7 +71,7 @@ resource "google_cloudbuild_trigger" "launch-vcfstats" {
     
     included_files = ["functions/launch-vcfstats/*"]
 
-    filename = "functions/launch-flagstat/cloudbuild.yaml"
+    filename = "functions/launch-vcfstats/cloudbuild.yaml"
 
     substitutions = {
         _CREDENTIALS_BLOB   = google_storage_bucket_object.trellis-config.name
