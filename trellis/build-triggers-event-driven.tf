@@ -46,7 +46,7 @@ resource "google_cloudbuild_trigger" "check-triggers" {
     }
     
     included_files = [
-        "functions/create-triggers/*",
+        "functions/check-triggers/*",
         "config/${var.data-group}/database-triggers.py"
     ]
 
@@ -77,7 +77,7 @@ resource "google_cloudbuild_trigger" "kill-job" {
         "functions/kill-job/*",
     ]
 
-    filename = "functions/check-triggers/cloudbuild.yaml"
+    filename = "functions/kill-job/cloudbuild.yaml"
 
     substitutions = {
         _ENVIRONMENT            = "google-cloud"
