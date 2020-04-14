@@ -9,7 +9,7 @@
 
 resource "google_compute_instance" "bastion-node" {
     name = "bastion-external-${random_string.suffix.result}"
-    machine_type = "n1-standard-1"
+    machine_type = "n1-small"
     zone = "us-west1-a"
     
     tags = ["bastion"]
