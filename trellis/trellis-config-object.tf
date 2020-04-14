@@ -61,6 +61,6 @@ TOPIC_TEXT_TO_TABLE: ${google_pubsub_topic.launch-text-to-table.name}
 TOPIC_BIGQUERY_IMPORT_CSV: ${google_pubsub_topic.bigquery-import-csv.name}
 TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
 
-BIGQUERY_DATASET: mvp_trellis_${var.data-group}
+BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
 EOT
 }
