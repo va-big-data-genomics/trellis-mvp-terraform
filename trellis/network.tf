@@ -22,6 +22,9 @@ resource "google_compute_subnetwork" "trellis-subnet" {
     ip_cidr_range   = "10.138.0.0/16"
     region          = "us-west1"
     network         = google_compute_network.trellis-vpc-network.self_link
+
+    // Allow dsub to fetch GCR images from VM with only internal IP
+    private_ip_google_access = true
 }
 
 // Create serverless VPC connector
