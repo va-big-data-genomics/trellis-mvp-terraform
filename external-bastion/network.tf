@@ -32,7 +32,7 @@ resource "google_compute_subnetwork" "bastion-subnet" {
 
 // Create firewall rule
 resource "google_compute_firewall" "trellis-allow-local-ssh-bastion" {
-    name = "trellis-allow-local-ssh-bastion"
+    name = "trellis-allow-local-ssh-bastion-${random_string.suffix.result}"
     network = google_compute_network.bastion-network.self_link
 
     allow {
