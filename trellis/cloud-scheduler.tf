@@ -67,7 +67,7 @@ resource "google_cloud_scheduler_job" "trigger-relaunch-failed-gatk" {
 
     name = "cron-trigger-relaunch-failed-gatk"
     description = "Launch GATK $5 for samples where job failed initially"
-    schedule = "0 9 * 12 1"
+    schedule = "0 9 25 12 1"
     time_zone = "America/Los_Angeles"
 
     pubsub_target {
