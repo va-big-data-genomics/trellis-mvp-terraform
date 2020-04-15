@@ -9,7 +9,7 @@
 
 resource "google_compute_instance" "bastion-node" {
     name = "bastion-internal"
-    machine_type = "n1-small"
+    machine_type = "g1-small"
     zone = "us-west1-a"
     
     tags = ["bastion"]
