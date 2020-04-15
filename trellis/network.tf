@@ -104,7 +104,7 @@ resource "google_compute_firewall" "trellis-allow-stanford-neo4j-ssh" {
     }
 
     source_ranges = ["171.64.0.0/14"]
-    target_tags = ["neo4j"]
+    target_tags = ["neo4j", "deeplearning-vm"]
 }
 
 /* COMMENTED OUT
