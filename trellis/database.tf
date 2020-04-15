@@ -55,19 +55,6 @@ module "gce-container" {
   restart_policy = "Always"
 }
 
-/* Create attached persistent disk
-resource "google_compute_disk" "neo4j-data-disk" {
-    name = "trellis-neo4j-data-disk"
-    type = "pd-standard"
-    size = 10
-    image = "centos-6-v20200309"
-    labels = {
-        user = "trellis"
-    }
-}
-*/
-
-
 // Create Neo4j instance
 resource "google_compute_instance" "neo4j-database" {
     name = "trellis-neo4j-db"
@@ -81,6 +68,7 @@ resource "google_compute_instance" "neo4j-database" {
         }
     }
 
+    // Created by perma-resources module
     attached_disk {
         source      = "disk-trellis-neo4j-data"
         device_name = "data-disk-0"
