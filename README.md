@@ -144,12 +144,14 @@ terraform apply --var-file=my.tfvars
 terraform destroy --var-file=my.tfvars
 ```
 
-## G. Add Cloud Functions Developer to Cloud Build service account
+## G. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account.
 Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-functions
 
 ## H. Navigate to the Cloud Build console and activate all triggers.
-In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to manually activate them the first time.
+In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to create a new git commit or manually activate the triggers.
 
 ## I. Login to database via web browser & update username & password.
 
 ## J. Add database indexes.
+
+## K. Add docker images to Google Container Registry.
