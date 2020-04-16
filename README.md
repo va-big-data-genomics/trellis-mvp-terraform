@@ -159,3 +159,11 @@ https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
 
 ## L. Integrate `check-dstat` Cloud Run function with Pub/Sub
 Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
+
+## M. Add project labels
+Add the following key:value labels to the GCE project, via the IAM & Admin => Labels page in the console.
+
+```
+trellis-network  = trellis
+trellis-subnetwork = trellis-us-west1
+```
