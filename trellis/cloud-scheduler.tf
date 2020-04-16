@@ -23,7 +23,8 @@ resource "google_cloud_scheduler_job" "cron-import-data-from-personalis" {
 {
     "resource": "bucket", 
     "gcp-metadata": {
-        "name": "${var.project}-from-personalis"
+        "name": "${var.project}-from-personalis",
+        "prefix": "va_mvp_phase2"
     }
 }
 EOT
