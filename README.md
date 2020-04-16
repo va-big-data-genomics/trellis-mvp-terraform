@@ -153,3 +153,9 @@ In order to deploy all serverless functions managed by Cloud Build triggers, you
 ## I. Login to database via web browser & update username & password.
 
 ## J. Add database indexes.
+
+## K. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account
+https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
+
+## L. Integrate `check-dstat` Cloud Run function with Pub/Sub
+Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
