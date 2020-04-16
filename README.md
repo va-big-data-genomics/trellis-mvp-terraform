@@ -153,5 +153,3 @@ In order to deploy all serverless functions managed by Cloud Build triggers, you
 ## I. Login to database via web browser & update username & password.
 
 ## J. Add database indexes.
-
-## K. Add docker images to Google Container Registry.
