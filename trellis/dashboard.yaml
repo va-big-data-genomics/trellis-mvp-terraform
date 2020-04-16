@@ -1,0 +1,197 @@
+displayName: VA MVP Trellis
+gridLayout:
+  columns: '2'
+  widgets:
+  - title: Execution times for db-query [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: HEATMAP
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              perSeriesAligner: ALIGN_DELTA
+            filter: metric.type="cloudfunctions.googleapis.com/function/execution_times"
+              resource.type="cloud_function" resource.label."function_name"="trellis-db-query"
+          unitOverride: ns
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Unacked database messages
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="pubsub.googleapis.com/subscription/num_undelivered_messages"
+              resource.type="pubsub_subscription" metadata.system_labels."topic_id"="db-query"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Function Active instances
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="cloudfunctions.googleapis.com/function/active_instances"
+              resource.type="cloud_function"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Publish requests
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              perSeriesAligner: ALIGN_RATE
+            filter: metric.type="pubsub.googleapis.com/topic/send_request_count" resource.type="pubsub_topic"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Trellis Instances - Reserved cores by trellis-id [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              groupByFields:
+              - metadata.user_labels."trellis-name"
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="compute.googleapis.com/instance/cpu/reserved_cores"
+              resource.type="gce_instance"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Cromwell Instances - Reserved cores by metadata.user_labels.wdl-call-alias
+      [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              groupByFields:
+              - metadata.user_labels."wdl-call-alias"
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="compute.googleapis.com/instance/cpu/reserved_cores"
+              resource.type="gce_instance"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Function Execution times [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: HEATMAP
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              perSeriesAligner: ALIGN_SUM
+            filter: metric.type="cloudfunctions.googleapis.com/function/execution_times"
+              resource.type="cloud_function"
+          unitOverride: ns
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Oldest unacked database message
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="pubsub.googleapis.com/subscription/oldest_unacked_message_age"
+              resource.type="pubsub_subscription" metadata.system_labels."topic_id"="db-query"
+          unitOverride: s
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: HaplotypeCaller - Reserved cores [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: LINE
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              groupByFields:
+              - metadata.user_labels."cromwell-workflow-id"
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="compute.googleapis.com/instance/cpu/reserved_cores"
+              resource.type="gce_instance" metadata.user_labels."wdl-call-alias"="haplotypecaller4"
+          unitOverride: '1'
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
+  - title: Storage Footprint - Total bytes by label.storage_class [SUM]
+    xyChart:
+      chartOptions:
+        mode: COLOR
+      dataSets:
+      - minAlignmentPeriod: 60s
+        plotType: STACKED_AREA
+        timeSeriesQuery:
+          timeSeriesFilter:
+            aggregation:
+              crossSeriesReducer: REDUCE_SUM
+              groupByFields:
+              - resource.label."bucket_name"
+              perSeriesAligner: ALIGN_MEAN
+            filter: metric.type="storage.googleapis.com/storage/total_bytes" resource.type="gcs_bucket"
+          unitOverride: By
+      timeshiftDuration: 0s
+      yAxis:
+        label: y1Axis
+        scale: LINEAR
