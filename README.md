@@ -167,3 +167,8 @@ Add the following key:value labels to the GCE project, via the IAM & Admin => La
 trellis-network  = trellis
 trellis-subnetwork = trellis-us-west1
 ```
+
+## N. Deploy Monitoring dashboard
+```
+gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
+```
