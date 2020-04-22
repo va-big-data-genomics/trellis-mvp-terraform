@@ -48,7 +48,6 @@ resource "google_compute_firewall" "trellis-allow-serverless-neo4j" {
     target_tags = ["neo4j"]
 }
 
-/* Temporary shelving
 resource "google_compute_firewall" "trellis-allow-bastion-neo4j" {
     name = "trellis-allow-bastion-neo4j"
     network = google_compute_network.trellis-vpc-network.self_link
@@ -61,9 +60,7 @@ resource "google_compute_firewall" "trellis-allow-bastion-neo4j" {
     source_tags = ["bastion"]
     target_tags = ["neo4j"]
 }
-*/
 
-/* Temporary shelving
 resource "google_compute_firewall" "trellis-allow-bastion-bastion" {
     name = "trellis-allow-bastion-bastion"
     network = google_compute_network.trellis-vpc-network.self_link
@@ -77,7 +74,6 @@ resource "google_compute_firewall" "trellis-allow-bastion-bastion" {
     source_tags = ["bastion"]
     target_tags = ["bastion"]
 }
-*/
 
 // DELETE FOR PRODUCTION
 resource "google_compute_firewall" "trellis-allow-stanford-neo4j" {
@@ -93,7 +89,7 @@ resource "google_compute_firewall" "trellis-allow-stanford-neo4j" {
     target_tags = ["neo4j"]
 }
 
-// DELETE FOR PRODUCTION
+/* DELETE FOR PRODUCTION
 resource "google_compute_firewall" "trellis-allow-stanford-neo4j-ssh" {
     name = "trellis-allow-stanford-neo4j-ssh"
     network = google_compute_network.trellis-vpc-network.self_link
@@ -106,6 +102,7 @@ resource "google_compute_firewall" "trellis-allow-stanford-neo4j-ssh" {
     source_ranges = ["171.64.0.0/14"]
     target_tags = ["neo4j", "deeplearning-vm"]
 }
+*/
 
 /* COMMENTED OUT
 resource "google_compute_firewall" "trellis-allow-notebook-neo4j" {
