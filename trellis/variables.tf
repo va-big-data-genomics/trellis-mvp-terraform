@@ -75,7 +75,7 @@ variable "gatk-github-owner" {
 
 variable "gatk-github-repo" {
     type = string
-    default = "gatk-mvp"
+    default = "trellis-mvp-gatk"
 }
 
 variable "gatk-github-branch-pattern" {
