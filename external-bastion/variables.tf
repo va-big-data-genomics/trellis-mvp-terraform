@@ -5,3 +5,7 @@ variable "project" {
 variable "local-ip" {
     type = string
 }
+
+variable "unique-id" {
+    type = string
+}
