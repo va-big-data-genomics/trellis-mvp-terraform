@@ -95,3 +95,37 @@ resource "google_compute_instance" "neo4j-database" {
         scopes = ["cloud-platform"]
     }
 }
+
+// Configure Cloud SQL PostgreSQL private IP
+resource "google_compute_global_address" "private_ip_postgresql" {
+  provider = google-beta
+
+  name          = "private-ip-postgresql"
+  purpose       = "VPC_PEERING"
+  address_type  = "INTERNAL"
+  prefix_length = 16
+  network       = google_compute_network.trellis-vpc-network.self_link
+}
+
+resource "google_service_networking_connection" "private-vpc-postgresql" {
+  provider = google-beta
+
+  network                 = google_compute_network.trellis-vpc-network.self_link
+  service                 = "servicenetworking.googleapis.com"
+  reserved_peering_ranges = [google_compute_global_address.private_ip_postgresql.name]
+}
+
+// Create Cloud SQL PostgreSQL instance
+resource "google_sql_database_instance" "postgresql-database" {
+  name             = "trellis-qc-db"
+  database_version = "POSTGRES_11"
+  region           = "us-west1"
+
+  settings {
+    tier = "db-f1-micro"
+    ip_configuration {
+      ipv4_enabled    = false
+      private_network = google_compute_network.trellis-vpc-network.self_link
+    }
+  }
+}
