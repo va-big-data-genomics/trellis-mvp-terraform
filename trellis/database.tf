@@ -129,3 +129,25 @@ resource "google_sql_database_instance" "postgresql-database" {
     }
   }
 }
+
+
+resource "google_sql_database_instance" "test-local-conn" {
+  name             = "test-local-conn"
+  database_version = "POSTGRES_11"
+  region           = var.region
+
+  settings {
+    tier = "db-f1-micro"
+    #ip_configuration {
+      #ipv4_enabled    = false
+      #private_network = google_compute_network.trellis-vpc-network.self_link
+    #}
+  }
+}
+
+resource "google_sql_user" "test" {
+  name     = "pbilling"
+  instance = google_sql_database_instance.test-local-conn.name
+  host     = "%"
+  password = "stanford"
+}
