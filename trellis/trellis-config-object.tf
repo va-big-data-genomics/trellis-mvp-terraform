@@ -62,5 +62,9 @@ TOPIC_BIGQUERY_IMPORT_CSV: ${google_pubsub_topic.bigquery-import-csv.name}
 TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
 
 BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
+
+QC_DB_USER: ${var.qc-db-user}
+QC_DB_PASSWORD: ${var.qc-db-pass}
+QC_DB_NAME: ${google_sql_database_instance.postgresql-database.name}
 EOT
 }
