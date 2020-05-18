@@ -130,7 +130,7 @@ resource "google_sql_database_instance" "postgresql-database" {
   }
 }
 
-
+/*
 resource "google_sql_database_instance" "test-local-conn" {
   name             = "test-local-conn"
   database_version = "POSTGRES_11"
@@ -151,3 +151,4 @@ resource "google_sql_user" "test" {
   host     = "%"
   password = "stanford"
 }
+*/
