@@ -172,3 +172,10 @@ trellis-subnetwork = trellis-us-west1
 ```
 gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
 ```
+
+## O. Integrate Cloud Run with Pub/Sub
+Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
+
+## P. Add Cloud SQL Client role to Cloud Functions service account
+https://cloud.google.com/sql/docs/mysql/connect-functions
+
