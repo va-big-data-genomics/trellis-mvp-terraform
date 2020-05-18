@@ -60,11 +60,14 @@ TOPIC_VCFSTATS: ${google_pubsub_topic.launch-vcfstats.name}
 TOPIC_TEXT_TO_TABLE: ${google_pubsub_topic.launch-text-to-table.name}
 TOPIC_BIGQUERY_IMPORT_CSV: ${google_pubsub_topic.bigquery-import-csv.name}
 TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
+TOPIC_POSTGRES_INSERT_DATA: ${google_pubsub_topic.postgres-insert-data.name}
 
 BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
 
+QC_DB_INSTANCE_CONN: ${google_sql_database_instance.postgresql-database.connection_name}
+QC_DB_IP: ${google_sql_database_instance.postgresql-database.private_ip_address}
 QC_DB_USER: ${var.qc-db-user}
 QC_DB_PASSWORD: ${var.qc-db-pass}
-QC_DB_NAME: ${google_sql_database_instance.postgresql-database.name}
+QC_DB_NAME: postgres
 EOT
 }
