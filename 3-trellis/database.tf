@@ -127,6 +127,7 @@ resource "random_string" "suffix" {
 
 
 // Create Cloud SQL PostgreSQL instance
+// Terraform example: https://www.terraform.io/docs/providers/google/r/sql_database_instance.html#private-ip-instance
 resource "google_sql_database_instance" "postgresql-database" {
   name             = "trellis-qc-db-${random_string.suffix.result}"
   database_version = "POSTGRES_11"
