@@ -96,6 +96,7 @@ resource "google_compute_instance" "neo4j-database" {
     }
 }
 
+
 // Configure Cloud SQL PostgreSQL private IP
 resource "google_compute_global_address" "private_ip_postgresql" {
   provider = google-beta
@@ -115,14 +116,28 @@ resource "google_service_networking_connection" "private-vpc-postgresql" {
   reserved_peering_ranges = [google_compute_global_address.private_ip_postgresql.name]
 }
 
+// Add random string to Postgres database name to get around this issue:
+// https://github.com/terraform-providers/terraform-provider-google/issues/3404
+resource "random_string" "suffix" {
+  length  = 4
+  upper   = false
+  special = false
+}
+
+
+
 // Create Cloud SQL PostgreSQL instance
 resource "google_sql_database_instance" "postgresql-database" {
-  name             = "trellis-qc-db"
+  name             = "trellis-qc-db-${random_string.suffix.result}"
   database_version = "POSTGRES_11"
   region           = "us-west1"
 
+  depends_on = [google_service_networking_connection.private-vpc-postgresql]
+
   settings {
-    tier = "db-f1-micro"
+    //tier = "db-f1-micro"
+    // Supported PostgreSQL machines: https://cloud.google.com/sql/pricing#pg-pricing
+    tier = "db-custom-2-7168"
     ip_configuration {
       ipv4_enabled    = false
       private_network = google_compute_network.trellis-vpc-network.self_link
@@ -130,21 +145,7 @@ resource "google_sql_database_instance" "postgresql-database" {
   }
 }
 
-/*
-resource "google_sql_database_instance" "test-local-conn" {
-  name             = "test-local-conn"
-  database_version = "POSTGRES_11"
-  region           = var.region
-
-  settings {
-    tier = "db-f1-micro"
-    #ip_configuration {
-      #ipv4_enabled    = false
-      #private_network = google_compute_network.trellis-vpc-network.self_link
-    #}
-  }
-}
-
+/* Couldn't get this to work
 resource "google_sql_user" "test" {
   name     = "pbilling"
   instance = google_sql_database_instance.test-local-conn.name
