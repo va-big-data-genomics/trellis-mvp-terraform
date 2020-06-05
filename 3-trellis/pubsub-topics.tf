@@ -91,3 +91,8 @@ resource "google_pubsub_topic" "update-metadata" {
     name = "update-metadata"
     labels = {user = "trellis"}
 }
+
+resource "google_pubsub_topic" "postgres-insert-data" {
+    name = "postgres-insert-data"
+    labels = {user = "trellis"}
+}

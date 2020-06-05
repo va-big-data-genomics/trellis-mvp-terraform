@@ -23,7 +23,8 @@ resource "google_cloud_scheduler_job" "cron-import-data-from-personalis" {
 {
     "resource": "bucket", 
     "gcp-metadata": {
-        "name": "${var.project}-from-personalis"
+        "name": "${var.project}-from-personalis",
+        "prefix": "va_mvp_phase2"
     }
 }
 EOT
@@ -34,9 +35,9 @@ EOT
 resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-50" {
     region = var.app-engine-region
 
-    name = "cron-trigger-fastq-to-ubam-50"
-    description = "Launch variant calling for 100 samples every 3 hours"
-    schedule = "0,40 */3 * * *"
+    name = "cron-trigger-fastq-to-ubam-25"
+    description = "Launch variant calling for 25 samples every hour"
+    schedule = "0 * * * *"
     time_zone = "America/Los_Angeles"
 
     pubsub_target {
@@ -47,11 +48,11 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-50" {
         "resource": "query",
             "method": "VIEW",
             "labels": ["Sample", "Marker", "Cypher", "Query"],
-            "sentFrom": "cron-trigger-fastq-to-ubam-50",
+            "sentFrom": "cron-trigger-fastq-to-ubam-25",
             "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
-        "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 50", 
+        "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
         "result-mode": "data",
         "result-structure": "list",
         "result-split": "True"
@@ -79,6 +80,33 @@ resource "google_cloud_scheduler_job" "trigger-relaunch-failed-gatk" {
         "method": "VIEW",
         "labels": ["Request", "LaunchFailedGatk5Dollar", "All"],
         "sentFrom": "cron-trigger-relaunch-failed-gatk"
+    },
+    "body": {
+        "results": {}
+    }
+}
+EOT
+)
+    }
+}
+
+resource "google_cloud_scheduler_job" "trigger-postgres-import" {
+    region = var.app-engine-region
+
+    name = "cron-trigger-request-postgres-import"
+    description = "Import QC data into Postgres database"
+    schedule = "0 9 25 12 1"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "PostgresInsertTextToTable", "PostgresInsertContamination", "All"],
+        "sentFrom": "cron-trigger-request-postgres-import"
     },
     "body": {
         "results": {}

@@ -18,10 +18,11 @@ provider "google-beta" {
   zone    = var.zone
 }
 
+/* Not sure what this is for
+resource "google_project_service" "project" {
+  project = var.project
+  service = "cloudfunctions.googleapis.com"
 
-resource "google_compute_project_metadata" "default" {
-    metadata = {
-        trellis-network = google_compute_network.trellis-vpc-network.name
-        trellis-subnetwork = google_compute_subnetwork.trellis-subnet.name
-    }
+  disable_dependent_services = true
 }
+*/

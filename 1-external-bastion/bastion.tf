@@ -8,7 +8,7 @@
 */
 
 resource "google_compute_instance" "bastion-node" {
-    name = "bastion-external-${random_string.suffix.result}"
+    name = "bastion-external-${var.unique-id}"
     machine_type = "g1-small"
     zone = "us-west1-a"
     

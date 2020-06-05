@@ -153,3 +153,30 @@ In order to deploy all serverless functions managed by Cloud Build triggers, you
 ## I. Login to database via web browser & update username & password.
 
 ## J. Add database indexes.
+
+## K. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account
+https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
+
+## L. Integrate `check-dstat` Cloud Run function with Pub/Sub
+Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
+
+## M. Add project labels
+Add the following key:value labels to the GCE project, via the IAM & Admin => Labels page in the console.
+
+```
+trellis-network  = trellis
+trellis-subnetwork = trellis-us-west1
+```
+
+## N. Deploy Monitoring dashboard
+```
+gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
+```
+
+## O. Integrate Cloud Run with Pub/Sub
+Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
+
+Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
+
+## P. Add Cloud SQL Client role to Cloud Functions service account
+https://cloud.google.com/sql/docs/mysql/connect-functions

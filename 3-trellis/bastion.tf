@@ -24,6 +24,6 @@ resource "google_compute_instance" "bastion-node" {
     network_interface {
         network = google_compute_network.trellis-vpc-network.self_link
         subnetwork = google_compute_subnetwork.trellis-subnet.self_link
-
+        access_config {}
     }
 }

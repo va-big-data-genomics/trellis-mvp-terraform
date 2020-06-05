@@ -156,3 +156,26 @@ resource "google_cloudbuild_trigger" "bigquery-append-tsv" {
     }
 
 }
+
+resource "google_cloudbuild_trigger" "postgres-insert-data" {
+    name        = "gcf-postgres-insert-data"
+    provider    = google-beta
+
+    github {
+        owner = var.github-owner
+        name  = var.github-repo
+        push  {
+            branch = var.github-branch-pattern
+        }
+    }
+
+    included_files = ["functions/postgres-insert-data/*"]
+    filename = "functions/postgres-insert-data/cloudbuild.yaml"
+
+    substitutions = {
+        _CREDENTIALS_BLOB   = google_storage_bucket_object.trellis-config.name
+        _CREDENTIALS_BUCKET = google_storage_bucket.trellis.name
+        _TRIGGER_TOPIC      = google_pubsub_topic.postgres-insert-data.name
+        _ENVIRONMENT        = "google-cloud"
+    }
+}
