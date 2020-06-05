@@ -176,6 +176,7 @@ gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --pro
 ## O. Integrate Cloud Run with Pub/Sub
 Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
+Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
+
 ## P. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions
-
