@@ -26,3 +26,13 @@ resource "google_project_service" "project" {
   disable_dependent_services = true
 }
 */
+
+// Add project labels. Require to import project state first.
+resource "google_project" "trellis_project" {
+  name       = var.project
+  project_id = var.project
+  labels     = {trellis-network = "trellis", trellis-subnetwork = "trellis-us-west1"}
+  lifecycle {
+    ignore_changes = [name, billing_account]
+  }
+}
