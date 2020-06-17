@@ -3,9 +3,9 @@
 | Network Configuration
 |--------------------------------------------------------------------------
 |
-| In order to run task VMs with only internal IP addresses, we need to 
+| In order to run task VMs with only internal IP addresses, we need to
 | set up a Virtual Private Cloud (VPC) network. Here we will create a
-| Trellis network, subnetwork, firewall rules, and a serverless VPC 
+| Trellis network, subnetwork, firewall rules, and a serverless VPC
 | connector.
 |
 */
@@ -14,7 +14,7 @@
 resource "google_compute_network" "trellis-vpc-network" {
     name = "trellis"
     auto_create_subnetworks = false
-}    
+}
 
 // Create subnetwork
 resource "google_compute_subnetwork" "trellis-subnet" {
@@ -62,17 +62,19 @@ resource "google_compute_firewall" "trellis-allow-bastion-neo4j" {
 }
 
 resource "google_compute_firewall" "trellis-allow-bastion-bastion" {
-    name = "trellis-allow-bastion-bastion"
-    network = google_compute_network.trellis-vpc-network.self_link
+   name = "trellis-allow-bastion-bastion"
+   network = google_compute_network.trellis-vpc-network.self_link
 
-    allow {
-        protocol = "tcp"
-        ports = ["22"]
-    }
+   allow {
+       protocol = "tcp"
+       ports = ["22"]
+   }
 
-    source_ranges = [var.external-bastion-ip]
-    source_tags = ["bastion"]
-    target_tags = ["bastion"]
+   source_ranges = [var.external-bastion-ip]
+   source_tags = ["bastion"]
+   target_tags = ["bastion"]
+
+   count = var.external-bastion-ip == "" ? 0 : 1
 }
 
 // DELETE FOR PRODUCTION

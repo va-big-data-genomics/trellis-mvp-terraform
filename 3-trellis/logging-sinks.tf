@@ -8,12 +8,13 @@
 */
 
 module "delete_instance_log" {
-  source                 = "./google-log-export"
+  source                 = "terraform-google-modules/log-export/google"
+  version                = "~> 4.0.0"
   destination_uri        = module.delete_instance_topic.destination_uri
   filter                 = <<EOT
-resource.type = gce_instance AND 
-protoPayload.serviceName = compute.googleapis.com 
-AND protoPayload.request.@type = type.googleapis.com/compute.instances.delete 
+resource.type = gce_instance AND
+protoPayload.serviceName = compute.googleapis.com
+AND protoPayload.request.@type = type.googleapis.com/compute.instances.delete
 AND protoPayload.resourceName:google-pipelines-worker
 EOT
   log_sink_name          = "delete-pipelines-worker"
@@ -25,19 +26,22 @@ EOT
 }
 
 module "delete_instance_topic" {
-  source                   = "./pubsub"
+  source                   = "terraform-google-modules/log-export/google//modules/pubsub"
+  version                  = "~> 4.0.0"
   project_id               = var.project
   topic_name               = "delete-pipelines-worker"
   log_sink_writer_identity = module.delete_instance_log.writer_identity
   create_subscriber        = false
+  topic_labels             = var.topic_labels
 }
 
 module "insert_cromwell_log" {
-  source                 = "./google-log-export"
+  source                 = "terraform-google-modules/log-export/google"
+  version                = "~> 4.0.0"
   destination_uri        = module.insert_cromwell_topic.destination_uri
   filter                 = <<EOT
-resource.type = gce_instance 
-AND protoPayload.serviceName = compute.googleapis.com 
+resource.type = gce_instance
+AND protoPayload.serviceName = compute.googleapis.com
 AND protoPayload.request.@type = type.googleapis.com/compute.instances.insert
 AND protoPayload.request.networkInterfaces.network: networks/${google_compute_network.trellis-vpc-network.name}
 AND protoPayload.resourceName:google-pipelines-worker
@@ -50,19 +54,22 @@ EOT
 }
 
 module "insert_cromwell_topic" {
-  source                   = "./pubsub"
+  source                   = "terraform-google-modules/log-export/google//modules/pubsub"
+  version                  = "~> 4.0.0"
   project_id               = var.project
   topic_name               = "insert-cromwell-instance"
   log_sink_writer_identity = module.insert_cromwell_log.writer_identity
   create_subscriber        = false
+  topic_labels             = var.topic_labels
 }
 
 module "insert_trellis_log" {
-  source                 = "./google-log-export"
+  source                 = "terraform-google-modules/log-export/google"
+  version                = "~> 4.0.0"
   destination_uri        = module.insert_trellis_topic.destination_uri
   filter                 = <<EOT
-resource.type = gce_instance 
-AND protoPayload.serviceName = compute.googleapis.com 
+resource.type = gce_instance
+AND protoPayload.serviceName = compute.googleapis.com
 AND protoPayload.request.@type = type.googleapis.com/compute.instances.insert
 AND protoPayload.request.networkInterfaces.network: networks/${google_compute_network.trellis-vpc-network.name}
 AND protoPayload.resourceName:google-pipelines-worker
@@ -75,9 +82,11 @@ EOT
 }
 
 module "insert_trellis_topic" {
-  source                   = "./pubsub"
+  source                   = "terraform-google-modules/log-export/google//modules/pubsub"
+  version                  = "~> 4.0.0"
   project_id               = var.project
   topic_name               = "insert-trellis-instance"
   log_sink_writer_identity = module.insert_trellis_log.writer_identity
   create_subscriber        = false
+  topic_labels             = var.topic_labels
 }

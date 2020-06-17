@@ -4,7 +4,8 @@ variable "project" {
 }
 
 variable "external-bastion-ip" {
-    type = string
+   type = string
+   default = ""
 }
 
 variable "db-user" {
@@ -92,4 +93,10 @@ variable "gatk-github-repo" {
 variable "gatk-github-branch-pattern" {
     type = string
     default = "^no-address$"
+}
+
+variable "topic_labels" {
+  type        = map(string)
+  default     = {"user":"trellis", "created_by":"terraform"}
+  description = "A set of key/value label pairs to assign to the pubsub topic."
 }
