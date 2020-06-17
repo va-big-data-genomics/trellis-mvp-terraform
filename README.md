@@ -149,31 +149,25 @@ terraform apply --var-file=my.tfvars
 terraform destroy --var-file=my.tfvars
 ```
 
-## G. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account.
-Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-functions
-
-## H. Navigate to the Cloud Build console and activate all triggers.
+## G. Navigate to the Cloud Build console and activate all triggers.
 In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to create a new git commit or manually activate the triggers.
 
-## I. Login to database via web browser & update username & password.
+## H. Login to database via web browser & update username & password.
 
-## J. Add database indexes.
+## I. Add database indexes.
 
-## K. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account
-https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
-
-## L. Integrate `check-dstat` Cloud Run function with Pub/Sub
+## J. Integrate `check-dstat` Cloud Run function with Pub/Sub
 Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
 
-## M. Deploy Monitoring dashboard
+## K. Deploy Monitoring dashboard
 ```
 gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
 ```
 
-## N. Integrate Cloud Run with Pub/Sub
+## L. Integrate Cloud Run with Pub/Sub
 Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
 Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
 
-## O. Add Cloud SQL Client role to Cloud Functions service account
+## M. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions
