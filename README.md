@@ -99,10 +99,10 @@ terraform destroy --var-file=my.tfvars
 cd ../
 ```
 
-## E. Connect GitHub repositories to Cloud Build
+## D. Connect GitHub repositories to Cloud Build
 You will need to connect the Trellis functions repository as well as the GATK repo to Cloud Build. From the GCP web console navigate to the Cloud Build section, and select the Triggers pane. At the top, click "CONNECT REPOSITORY" and follow the instructions to connect both repos. The repository information is ddescribed in the `variables.tf` object.
 
-## F. Create App Engine Application from web console
+## E. Create App Engine Application from web console
 Go to the App Engine page and click the button to create an app. If you have already created one, you may need to change the app-engine-region variable to match yours.
 
 ## F. Terraform remaining Trellis resources
@@ -156,18 +156,15 @@ In order to deploy all serverless functions managed by Cloud Build triggers, you
 
 ## I. Add database indexes.
 
-## J. Integrate `check-dstat` Cloud Run function with Pub/Sub
-Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
-
-## K. Deploy Monitoring dashboard
+## J. Deploy Monitoring dashboard
 ```
 gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
 ```
 
-## L. Integrate Cloud Run with Pub/Sub
-Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
+## K. Integrate `check-dstat` Cloud Run with Pub/Sub
+Follow instructions 1-3 in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
 Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
 
-## M. Add Cloud SQL Client role to Cloud Functions service account
+## L. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions
