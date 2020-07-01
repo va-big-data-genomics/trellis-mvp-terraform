@@ -143,7 +143,7 @@ terraform plan --var-file=my.tfvars
 terraform apply --var-file=my.tfvars
 ```
 
-5. (optional) Use the `destroy` command if you want to destroy terraformed resources.
+5. (optional) Use the `destroy` command if you want to destroy terraformed resources. WARNING: if you imported project, this will destroy the project iself too.
 
 ```
 terraform destroy --var-file=my.tfvars
