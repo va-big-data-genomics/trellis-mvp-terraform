@@ -43,12 +43,12 @@ variable "neo4j-image" {
 
 variable "neo4j-pagecache-size" {
     type    = string
-    default = "32G"
+    default = "64G"
 }
 
 variable "neo4j-heap-size" {
     type    = string
-    default = "32G"
+    default = "64G"
 }
 
 // PostgreSQL QC database variables
