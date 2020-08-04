@@ -58,9 +58,10 @@ module "gce-container" {
 // Create Neo4j instance
 resource "google_compute_instance" "neo4j-database" {
     name = "trellis-neo4j-db"
-    machine_type = "custom-12-71680"
+    machine_type = "custom-4-143360-ext"
     
     allow_stopping_for_update = true
+    deletion_protection = true
 
     boot_disk {
         initialize_params {
