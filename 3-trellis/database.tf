@@ -9,10 +9,11 @@
 */
 
 module "gce-container" {
-  source = "./google-container-vm"
+  source = "terraform-google-modules/container-vm/google"
+  version = "~> 2.0.0"
 
   container = {
-    image = "gcr.io/${var.project}/${var.neo4j-image}"
+    image = var.neo4j-image
 
     env = [
       {
@@ -60,6 +61,7 @@ resource "google_compute_instance" "neo4j-database" {
     name = "trellis-neo4j-db"
     machine_type = "custom-4-143360-ext"
     
+
     allow_stopping_for_update = true
     deletion_protection = true
 
@@ -75,7 +77,7 @@ resource "google_compute_instance" "neo4j-database" {
         device_name = "data-disk-0"
         mode        = "READ_WRITE"
     }
-    
+
     network_interface {
         network = google_compute_network.trellis-vpc-network.self_link
         subnetwork = google_compute_subnetwork.trellis-subnet.self_link
