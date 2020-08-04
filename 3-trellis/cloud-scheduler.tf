@@ -32,7 +32,7 @@ EOT
     }
 }
 
-resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-50" {
+resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-25" {
     region = var.app-engine-region
 
     name = "cron-trigger-fastq-to-ubam-25"
@@ -53,6 +53,37 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-50" {
     },
     "body": {  
         "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
+        "result-mode": "data",
+        "result-structure": "list",
+        "result-split": "True"
+  }
+}
+EOT
+)
+    }
+}
+
+resource "google_cloud_scheduler_job" "trigger-fq2u-covid19-25" {
+    region = var.app-engine-region
+
+    name = "cron-trigger-fq2u-covid19-25"
+    description = "Launch variant calling for 25 COVID19 positive samples every hour"
+    schedule = "0 * * * *"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.db-query.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "query",
+            "method": "VIEW",
+            "labels": ["Sample", "COVID19", "Marker", "Cypher", "Query"],
+            "sentFrom": "cron-trigger-fq2u-covid19-25",
+            "publishTo": "${google_pubsub_topic.check-triggers.name}"
+    },
+    "body": {  
+        "cypher": "MATCH (s:Sample:COVID19)-[:HAS]->(f:Fastq) WHERE s.covid19Positive=True AND NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
         "result-mode": "data",
         "result-structure": "list",
         "result-split": "True"

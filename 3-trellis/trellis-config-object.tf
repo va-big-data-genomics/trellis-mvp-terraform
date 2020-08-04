@@ -39,9 +39,15 @@ DSUB_USER: trellis
 DSUB_NETWORK: ${google_compute_network.trellis-vpc-network.name}
 DSUB_SUBNETWORK: ${google_compute_subnetwork.trellis-subnet.name}
 
+# GATK $5 Pipelines variables
 GATK_MVP_DIR: workflow-inputs/gatk-mvp
 GATK_MVP_HASH: 325c68c
 GATK_GERMLINE_DIR: gatk-mvp-pipeline
+
+# view-gvcf-snps variables
+REF_FASTA: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta
+REF_FASTA_INDEX: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta.fai
+SIGNATURES: gs://${var.project}-trellis/signatureSNPs.txt
 
 # Trellis Pub/Sub topics
 TOPIC_LIST_BUCKET_PAGE: ${google_pubsub_topic.list-bucket-page.name}
