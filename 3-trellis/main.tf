@@ -29,13 +29,19 @@ resource "google_project_service" "run" {
   service = "run.googleapis.com"
 }
 
-// Retrieve default service account
-data "google_compute_default_service_account" "default" {
+resource "google_project_service" "sql" {
+  project = var.project
+  service = "sqladmin.googleapis.com"
 }
 
 // Formulate Cloud Build Service Account
 locals {
-  cloudbuild_sa = replace(data.google_compute_default_service_account.default.email, "-compute@developer.gserviceaccount.com", "@cloudbuild.gserviceaccount.com")
+  cloudbuild_sa =  "${google_project.trellis_project.number}@cloudbuild.gserviceaccount.com"
+}
+
+// Pub/Sub Service Account
+locals {
+  pubsub_sa = "service-${google_project.trellis_project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
 }
 
 // Binding roles to service account
@@ -54,6 +60,31 @@ resource "google_project_iam_binding" "run" {
     "serviceAccount:${local.cloudbuild_sa}"
   ]
 }
+
+// Integrating Cloud Run with Pub/Sub
+resource "google_project_iam_binding" "pubsub" {
+  project = var.project
+  role    = "roles/iam.serviceAccountTokenCreator"
+  members  = [
+    "serviceAccount:${local.pubsub_sa}"
+  ]
+}
+
+resource "google_service_account" "cloud-run-pubsub-invoker_sa" {
+  account_id   = "cloud-run-pubsub-invoker"
+  display_name = "Cloud Run Pub/Sub Invoker"
+}
+
+// Need to import trellis-check-dstat service first
+// resource "google_cloud_run_service_iam_binding" "binding" {
+//   location = google_cloud_run_service.check-dstat.location
+//   project = google_cloud_run_service.check-dstat.project
+//   service = google_cloud_run_service.check-dstat.name
+//   role = "roles/run.invoker"
+//   members = [
+//     "serviceAccount:${google_service_account.cloud-run-pubsub-invoker_sa.email}",
+//   ]
+// }
 
 // Add project labels. Require to import project state first.
 resource "google_project" "trellis_project" {
