@@ -28,6 +28,10 @@ module "gce-container" {
         "name"  = "NEO4J_dbms_memory_heap_max__size"
         "value" = var.neo4j-heap-size
       },
+      {
+        "name"  = "NEO4JLABS_PLUGINS"
+        "value" = ["apoc", "graph-algorithms"]
+      }
     ]
 
     # Declare volumes to be mounted
