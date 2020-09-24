@@ -67,6 +67,7 @@ TOPIC_TEXT_TO_TABLE: ${google_pubsub_topic.launch-text-to-table.name}
 TOPIC_BIGQUERY_IMPORT_CSV: ${google_pubsub_topic.bigquery-import-csv.name}
 TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
 TOPIC_POSTGRES_INSERT_DATA: ${google_pubsub_topic.postgres-insert-data.name}
+TOPIC_DELETE_BLOB: ${google_pubsub_topic.delete-blob.name}
 
 BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
 
