@@ -30,7 +30,11 @@ module "gce-container" {
       },
       {
         "name"  = "NEO4JLABS_PLUGINS"
-        "value" = ["apoc", "graph-algorithms"]
+        "value" = "[\"apoc\", \"graph-algorithms\"]"
+      },
+      {
+        "name" = "NEO4J_apoc_trigger_enabled"
+        "value" = "true"
       }
     ]
 
@@ -77,7 +81,7 @@ resource "google_compute_instance" "neo4j-database" {
 
     // Created by perma-resources module
     attached_disk {
-        source      = "disk-trellis-neo4j-data"
+        source      = var.neo4j-attached-disk
         device_name = "data-disk-0"
         mode        = "READ_WRITE"
     }
