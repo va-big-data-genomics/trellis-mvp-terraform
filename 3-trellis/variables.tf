@@ -16,6 +16,10 @@ variable "db-passphrase" {
     type = string
 }
 
+variable "neo4j-attached-disk" {
+    type = string
+}
+
 // Variables with default values
 variable "region" {
     type = string
