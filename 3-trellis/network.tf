@@ -106,9 +106,9 @@ resource "google_compute_firewall" "trellis-allow-stanford-neo4j-ssh" {
 }
 */
 
-/* COMMENTED OUT
+/* COMMENTED OUT (Why? Because I don't generate notebook?)
 resource "google_compute_firewall" "trellis-allow-notebook-neo4j" {
-    name = "trellis-allow-bastion-bastion"
+    name = "trellis-allow-notebook-neo4j"
     network = google_compute_network.trellis-vpc-network.self_link
 
     allow {
