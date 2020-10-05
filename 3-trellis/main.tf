@@ -90,7 +90,9 @@ resource "google_service_account" "cloud-run-pubsub-invoker_sa" {
 resource "google_project" "trellis_project" {
   name       = var.project
   project_id = var.project
-  labels     = {trellis-network = "trellis", trellis-subnetwork = "trellis-us-west1"}
+  labels     = {
+                trellis-network = "trellis",
+                trellis-subnetwork = "trellis-us-west1"}
   lifecycle {
     ignore_changes = [name, billing_account]
   }
