@@ -68,14 +68,26 @@ variable "qc-db-pass" {
 
 variable "github-owner" {
     type = string
-    description = "Owner of the Trellis GitHub repo."
+    description = "Owner of the Trellis GitHub repository."
     default = "StanfordBioinformatics"
 }
 
 variable "github-repo" {
     type = string
-    description = "Name of the Trellis GitHub repo."
+    description = "Name of the Trellis GitHub repository."
     default = "trellis-mvp-functions"
+}
+
+variable "trellis-analysis-owner" {
+    type = string
+    description = "Owner of the Trellis analysis repository."
+    default = "StanfordBioinformatics"
+}
+
+variable "trellis-analysis-repo" {
+    type = string
+    description = "Name of Trellis analysis repo containing Jupyter notebooks to run meta analyses."
+    default = "trellis-mvp-analysis"
 }
 
 variable "github-branch-pattern" {
