@@ -106,7 +106,6 @@ resource "google_compute_firewall" "trellis-allow-stanford-neo4j-ssh" {
 }
 */
 
-/* COMMENTED OUT (Why? Because I don't generate notebook?)
 resource "google_compute_firewall" "trellis-allow-notebook-neo4j" {
     name = "trellis-allow-notebook-neo4j"
     network = google_compute_network.trellis-vpc-network.self_link
@@ -116,11 +115,9 @@ resource "google_compute_firewall" "trellis-allow-notebook-neo4j" {
         ports = ["7473","7687"]
     }
 
-    source_ranges = "{AI_NOTEBOOK_IP}"
     source_tags = ["deeplearning-vm"]
     target_tags = ["neo4j"]
 }
-*/
 
 /* COMMENTED OUT
 resource "google_compute_firewall" "firewall-allow-bastion-ssh" {
