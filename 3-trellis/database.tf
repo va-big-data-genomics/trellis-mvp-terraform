@@ -30,7 +30,9 @@ module "gce-container" {
       },
       {
         "name"  = "NEO4JLABS_PLUGINS"
-        "value" = "[\"apoc\", \"graph-algorithms\"]"
+        #"value" = "[\"apoc\", \"graph-algorithms\"]"
+        #"value" = "[\"apoc\", \"graph-data-science\"]"
+        "value" = "[\"apoc\"]"
       },
       {
         "name" = "NEO4J_apoc_trigger_enabled"
