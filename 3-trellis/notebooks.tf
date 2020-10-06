@@ -39,15 +39,24 @@ resource "google_storage_bucket_object" "analysis-post-startup-script" {
   content = <<EOT
 #! /bin/bash
 
-# Copy notebook bash scripts from GCS to instance
+# Copy notebooks & bash scripts from GCS to instance
 mkdir /home/jupyter/cronjobs
+mkdir /home/jupyter/cronjobs/logs
+mkdir /home/jupyter/notebooks
 gsutil cp -r gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/cronjobs/* /home/jupyter/cronjobs/
+gsutil cp -r gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/notebooks/* /home/jupyter/notebooks/
+
+# Allow execution of cronjob scripts
+chmod 777 /home/jupyter/cronjobs/*
+chmod 777 /home/jupyter/notebooks/*
 
 # Set Trellis bucket as environment variable so it can be used by the bash scripts that run the notebooks
-echo TRELLIS_BUCKET=${google_storage_bucket.trellis.name} > ~/.bashrc
+echo TRELLIS_BUCKET=${google_storage_bucket.trellis.name} >> /home/jupyter/.bashrc
+echo PATH=/usr/bin:/bin:/usr/local/bin:/opt/conda/bin >> /home/jupyter/.bashrc
+chown jupyter /home/jupyter/.bashrc
 
 # Add notebook cron jobs to crontab
-crontab /home/jupyter/cronjobs/notebook-crons
+crontab -u jupyter /home/jupyter/cronjobs/notebook-crons
 EOT
 }
 
