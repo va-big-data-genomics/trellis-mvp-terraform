@@ -107,6 +107,7 @@ resource "google_cloudbuild_trigger" "launch-text-to-table" {
 
 }
 
+/* Replaced by Postgres database
 resource "google_cloudbuild_trigger" "bigquery-import-csv" {
     name        = "gcf-bigquery-import-csv"
     provider    = google-beta
@@ -156,6 +157,7 @@ resource "google_cloudbuild_trigger" "bigquery-append-tsv" {
     }
 
 }
+*/
 
 resource "google_cloudbuild_trigger" "postgres-insert-data" {
     name        = "gcf-postgres-insert-data"
