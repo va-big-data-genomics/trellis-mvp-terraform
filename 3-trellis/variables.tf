@@ -112,7 +112,12 @@ variable "gatk-github-branch-pattern" {
 }
 
 variable "topic_labels" {
-  type        = map(string)
-  default     = {"user":"trellis", "created_by":"terraform"}
-  description = "A set of key/value label pairs to assign to the pubsub topic."
+    type        = map(string)
+    default     = {"user":"trellis", "created_by":"terraform"}
+    description = "A set of key/value label pairs to assign to the pubsub topic."
+}
+
+variable "gatk-mvp-hash" {
+    type = string
+    description = "Hash (7 char) of git commit of gatk-mvp GitHub repo to use for germline variant calling."
 }
