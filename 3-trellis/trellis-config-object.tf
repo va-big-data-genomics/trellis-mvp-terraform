@@ -41,8 +41,9 @@ DSUB_SUBNETWORK: ${google_compute_subnetwork.trellis-subnet.name}
 
 # GATK $5 Pipelines variables
 GATK_MVP_DIR: workflow-inputs/gatk-mvp
-GATK_MVP_HASH: 325c68c
+GATK_MVP_HASH: ${var.gatk-mvp-hash}
 GATK_GERMLINE_DIR: gatk-mvp-pipeline
+CROMWELL_IMAGE: broadinstitute/cromwell:53.1
 
 # view-gvcf-snps variables
 REF_FASTA: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta
