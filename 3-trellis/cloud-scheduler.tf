@@ -178,3 +178,30 @@ EOT
 )
     }
 }
+
+resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
+    region = var.app-engine-region
+
+    name = "cron-request-launch-view-signature-snps"
+    description = "Launch view-gvcf-snps job to get signature SNPs from sample gVCF"
+    schedule = "0 9 25 12 1"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ['Request', 'LaunchViewSignatureSnps'],
+        "sentFrom": "cron-request-launch-view-signature-snps"
+    },
+    "body": {
+        "results": {}
+    }
+}
+EOT
+)
+    }    
+}
