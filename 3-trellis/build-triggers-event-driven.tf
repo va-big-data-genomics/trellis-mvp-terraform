@@ -111,33 +111,6 @@ resource "google_cloudbuild_trigger" "db-query" {
     }
 }
 
-resource "google_cloudbuild_trigger" "check-dstat" {
-    provider    = google-beta
-    name        = "gcr-check-dstat"
-    
-    github {
-        owner = var.github-owner
-        name  = var.github-repo
-        push  {
-            branch = var.github-branch-pattern
-        }
-    }
-    
-    included_files = [
-        "functions/check-dstat/*",
-    ]
-
-    filename = "functions/check-dstat/cloudbuild.yaml"
-
-    substitutions = {
-        _CREDENTIALS_BLOB       = google_storage_bucket_object.trellis-config.name
-        _CREDENTIALS_BUCKET     = google_storage_bucket.trellis.name
-        _ENVIRONMENT            = "google-cloud"
-        _TRIGGER_TOPIC          = google_pubsub_topic.check-dstat.name
-        _FUNCTION_NAME          = "check-dstat"
-    }
-}
-
 resource "google_cloudbuild_trigger" "delete-blob" {
     provider    = google-beta
     name        = "gcf-delete-blob"
