@@ -132,6 +132,5 @@ resource "google_cloudbuild_trigger" "gcf-check-dstat" {
         _CREDENTIALS_BUCKET     = google_storage_bucket.trellis.name
         _ENVIRONMENT            = "google-cloud"
         _TRIGGER_TOPIC          = google_pubsub_topic.check-dstat.name
-        _FUNCTION_NAME          = "check-dstat"
     }
 }
