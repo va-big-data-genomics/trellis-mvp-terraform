@@ -121,3 +121,21 @@ variable "gatk-mvp-hash" {
     type = string
     description = "Hash (7 char) of git commit of gatk-mvp GitHub repo to use for germline variant calling."
 }
+
+// Trellis analysis notebooks (trellis-mvp-analysis)
+variable "analysis-nb-samples" {
+    type = string
+    default = "trellis_mvp_phase3_SampleBasedAnalysis.ipynb"
+    description = "Gather sample-based metrics for phase 3 MVP WGS data."
+}
+
+variable "analysis-nb-jobs" {
+    type = string
+    default = "trellis_mvp_phase3_JobBasedAnalysis.ipynb"
+}
+
+variable "analysis-nb-qc" {
+    type = string
+    default = "trellis_mvp_phase3_QC.ipynb"
+    description = "Perform meta-analysis of QC metrics generated across samples."
+}
