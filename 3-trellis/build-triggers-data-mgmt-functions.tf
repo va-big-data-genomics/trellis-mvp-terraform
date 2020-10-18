@@ -29,7 +29,7 @@ resource "google_cloudbuild_trigger" "launch-view-gvcf-snps" {
         _CREDENTIALS_BLOB       = google_storage_bucket_object.trellis-config.name
         _CREDENTIALS_BUCKET     = google_storage_bucket.trellis.name
         _ENVIRONMENT            = "google-cloud"
-        _TRIGGER_TOPIC          = google_pubsub_topic.launch-gatk-5-dollar.name
+        _TRIGGER_TOPIC          = google_pubsub_topic.launch-view-gvcf-snps.name
     }
 }
 
