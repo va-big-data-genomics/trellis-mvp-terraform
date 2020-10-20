@@ -111,9 +111,9 @@ resource "google_cloudbuild_trigger" "db-query" {
     }
 }
 
-resource "google_cloudbuild_trigger" "check-dstat" {
+resource "google_cloudbuild_trigger" "delete-blob" {
     provider    = google-beta
-    name        = "gcr-check-dstat"
+    name        = "gcf-delete-blob"
     
     github {
         owner = var.github-owner
@@ -124,16 +124,40 @@ resource "google_cloudbuild_trigger" "check-dstat" {
     }
     
     included_files = [
-        "functions/check-dstat/*",
+        "functions/delete-blob/*",
     ]
 
-    filename = "functions/check-dstat/cloudbuild.yaml"
+    filename = "functions/delete-blob/cloudbuild.yaml"
+
+    substitutions = {
+        _ENVIRONMENT            = "google-cloud"
+        _TRIGGER_TOPIC          = google_pubsub_topic.delete-blob.name
+    }
+}
+
+resource "google_cloudbuild_trigger" "register-sample-snvqa-status" {
+    provider    = google-beta
+    name        = "gcf-register-sample-snvqa-status"
+    
+    github {
+        owner = var.github-owner
+        name  = var.github-repo
+        push  {
+            branch = var.github-branch-pattern
+        }
+    }
+    
+    included_files = [
+        "functions/register-sample-snvqa-status/*",
+    ]
+
+    filename = "functions/register-sample-snvqa-status/cloudbuild.yaml"
 
     substitutions = {
         _CREDENTIALS_BLOB       = google_storage_bucket_object.trellis-config.name
         _CREDENTIALS_BUCKET     = google_storage_bucket.trellis.name
         _ENVIRONMENT            = "google-cloud"
-        _TRIGGER_TOPIC          = google_pubsub_topic.check-dstat.name
-        _FUNCTION_NAME          = "check-dstat"
-    }
+        _TRIGGER_OPERATION      = "finalize"
+        _TRIGGER_RESOURCE       = "${var.project}-trellis"
+    }    
 }

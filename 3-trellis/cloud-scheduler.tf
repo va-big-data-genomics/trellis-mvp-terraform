@@ -47,12 +47,12 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-25" {
     "header": {
         "resource": "query",
             "method": "VIEW",
-            "labels": ["Sample", "Marker", "Cypher", "Query"],
+            "labels": ["PersonalisSequencing", "Marker", "Cypher", "Query"],
             "sentFrom": "cron-trigger-fastq-to-ubam-25",
             "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
-        "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
+        "cypher": "MATCH (s:PersonalisSequencing)-[:GENERATED]->(f:Fastq) WHERE NOT (f)-[:WAS_USED_BY]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
         "result-mode": "data",
         "result-structure": "list",
         "result-split": "True"
@@ -83,7 +83,7 @@ resource "google_cloud_scheduler_job" "trigger-fq2u-covid19-25" {
             "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
-        "cypher": "MATCH (s:Sample:COVID19)-[:HAS]->(f:Fastq) WHERE s.covid19Positive=True AND NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
+        "cypher": "MATCH (s:PersonalisSequencing:COVID19)-[:GENERATED]->(f:Fastq) WHERE s.covid19Positive=True AND NOT (f)-[:WAS_USED_BY]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
         "result-mode": "data",
         "result-structure": "list",
         "result-split": "True"
@@ -163,12 +163,12 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-1" {
     "header": {
         "resource": "query",
             "method": "VIEW",
-            "labels": ["Sample", "Marker", "Cypher", "Query"],
+            "labels": ["PersonalisSequencing", "Marker", "Cypher", "Query"],
             "sentFrom": "cron-trigger-fastq-to-ubam-1",
             "publishTo": "${google_pubsub_topic.check-triggers.name}"
     },
     "body": {  
-        "cypher": "MATCH (s:Sample)-[:HAS]->(f:Fastq) WHERE NOT (f)-[:INPUT_TO]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 1", 
+        "cypher": "MATCH (s:PersonalisSequencing)-[:GENERATED]->(f:Fastq) WHERE NOT (f)-[:WAS_USED_BY]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 1", 
         "result-mode": "data",
         "result-structure": "list",
         "result-split": "True"
@@ -177,4 +177,31 @@ resource "google_cloud_scheduler_job" "trigger-fastq-to-ubam-1" {
 EOT
 )
     }
+}
+
+resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
+    region = var.app-engine-region
+
+    name = "cron-request-launch-view-signature-snps"
+    description = "Launch view-gvcf-snps job to get signature SNPs from sample gVCF"
+    schedule = "0 9 25 12 1"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ['Request', 'LaunchViewSignatureSnps'],
+        "sentFrom": "cron-request-launch-view-signature-snps"
+    },
+    "body": {
+        "results": {}
+    }
+}
+EOT
+)
+    }    
 }

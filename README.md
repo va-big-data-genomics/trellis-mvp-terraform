@@ -7,7 +7,7 @@ Trellis MVP Terraform configurations
 https://learn.hashicorp.com/terraform/getting-started/install.html
 
 ## B. Deploy external bastion node (optional)
-The external bastion is deployed to a separate network & project from Trellis. In order to access Trellis resources such as the database and AI notebook, users will first connect to the external bastion host, then hop to the bastion host inside the Trellis project & network, and then to the Trellis resource. If you are not handling high or medium risk data, you can probably skip this and go to step C. 
+The external bastion is deployed to a separate network & project from Trellis. In order to access Trellis resources such as the database and AI notebook, users will first connect to the external bastion host, then hop to the bastion host inside the Trellis project & network, and then to the Trellis resource. If you are not handling high or medium risk data, you can probably skip this and go to step C.
 
 **From the repository root directory, navigate to the external-bastion Terraform module.**
 
@@ -21,7 +21,7 @@ The tfvars file stores variable values that will be used to deploy Trellis. All 
 ```
 printf 'project="{your-project-name}"\nlocal-ip="{your-local-ip}"' > my.tfvars
 ```
-  
+
 2. **Initialize Terraform.**
 
 ```
@@ -32,7 +32,7 @@ terraform init
 Run the 'terraform plan' operation and fix any issues that are identified.
 
 ```
-terraform plan --var-file=my.tfvars 
+terraform plan --var-file=my.tfvars
 ```
 
 4. **Apply terraforming.**
@@ -78,7 +78,7 @@ terraform init
 Run the 'terraform plan' operation and fix any issues that are identified.
 
 ```
-terraform plan --var-file=my.tfvars 
+terraform plan --var-file=my.tfvars
 ```
 
 4. **Apply terraforming.**
@@ -99,10 +99,10 @@ terraform destroy --var-file=my.tfvars
 cd ../
 ```
 
-## E. Connect GitHub repositories to Cloud Build
+## D. Connect GitHub repositories to Cloud Build
 You will need to connect the Trellis functions repository as well as the GATK repo to Cloud Build. From the GCP web console navigate to the Cloud Build section, and select the Triggers pane. At the top, click "CONNECT REPOSITORY" and follow the instructions to connect both repos. The repository information is ddescribed in the `variables.tf` object.
 
-## F. Create App Engine Application from web console
+## E. Create App Engine Application from web console
 Go to the App Engine page and click the button to create an app. If you have already created one, you may need to change the app-engine-region variable to match yours.
 
 ## F. Terraform remaining Trellis resources
@@ -125,11 +125,16 @@ printf 'project="{your-project-name}"\nexternal-bastion-ip="{your-bastion-ip}"\n
 terraform init
 ```
 
+3. **Import current project state.**
+```
+terraform import -var-file=my.tfvars google_project.trellis_project {your-project-id}
+```
+
 3. **Plan terraform.**
 Run the 'terraform plan' operation and fix any issues that are identified.
 
 ```
-terraform plan --var-file=my.tfvars 
+terraform plan --var-file=my.tfvars
 ```
 
 4. **Apply terraforming.**
@@ -138,45 +143,28 @@ terraform plan --var-file=my.tfvars
 terraform apply --var-file=my.tfvars
 ```
 
-5. (optional) Use the `destroy` command if you want to destroy terraformed resources.
+5. (optional) Use the `destroy` command if you want to destroy terraformed resources. WARNING: if you imported project, this will destroy the project iself too.
 
 ```
 terraform destroy --var-file=my.tfvars
 ```
 
-## G. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account.
-Instructions here: https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-functions
-
-## H. Navigate to the Cloud Build console and activate all triggers.
+## G. Navigate to the Cloud Build console and activate all triggers.
 In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to create a new git commit or manually activate the triggers.
 
-## I. Login to database via web browser & update username & password.
+## H. Login to database via web browser & update username & password.
 
-## J. Add database indexes.
+## I. Add database indexes.
 
-## K. Add Cloud Functions Developer & Cloud Run Admin to Cloud Build service account
-https://cloud.google.com/cloud-build/docs/deploying-builds/deploy-cloud-run
-
-## L. Integrate `check-dstat` Cloud Run function with Pub/Sub
-Section "Integrating with Pub/Sub": https://cloud.google.com/run/docs/tutorials/pubsub
-
-## M. Add project labels
-Add the following key:value labels to the GCE project, via the IAM & Admin => Labels page in the console.
-
-```
-trellis-network  = trellis
-trellis-subnetwork = trellis-us-west1
-```
-
-## N. Deploy Monitoring dashboard
+## J. Deploy Monitoring dashboard
 ```
 gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
 ```
 
-## O. Integrate Cloud Run with Pub/Sub
-Follow instructions 1-3.b in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
+## K. Integrate `check-dstat` Cloud Run with Pub/Sub
+Follow instructions 1-3 in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
 Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
 
-## P. Add Cloud SQL Client role to Cloud Functions service account
+## L. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions

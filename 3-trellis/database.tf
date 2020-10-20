@@ -9,10 +9,11 @@
 */
 
 module "gce-container" {
-  source = "./google-container-vm"
+  source = "terraform-google-modules/container-vm/google"
+  version = "~> 2.0.0"
 
   container = {
-    image = "gcr.io/${var.project}/${var.neo4j-image}"
+    image = var.neo4j-image
 
     env = [
       {
@@ -27,6 +28,16 @@ module "gce-container" {
         "name"  = "NEO4J_dbms_memory_heap_max__size"
         "value" = var.neo4j-heap-size
       },
+      {
+        "name"  = "NEO4JLABS_PLUGINS"
+        #"value" = "[\"apoc\", \"graph-algorithms\"]"
+        #"value" = "[\"apoc\", \"graph-data-science\"]"
+        "value" = "[\"apoc\"]"
+      },
+      {
+        "name" = "NEO4J_apoc_trigger_enabled"
+        "value" = "true"
+      }
     ]
 
     # Declare volumes to be mounted
@@ -60,6 +71,7 @@ resource "google_compute_instance" "neo4j-database" {
     name = "trellis-neo4j-db"
     machine_type = "custom-4-143360-ext"
     
+
     allow_stopping_for_update = true
     deletion_protection = true
 
@@ -71,11 +83,11 @@ resource "google_compute_instance" "neo4j-database" {
 
     // Created by perma-resources module
     attached_disk {
-        source      = "disk-trellis-neo4j-data"
+        source      = var.neo4j-attached-disk
         device_name = "data-disk-0"
         mode        = "READ_WRITE"
     }
-    
+
     network_interface {
         network = google_compute_network.trellis-vpc-network.self_link
         subnetwork = google_compute_subnetwork.trellis-subnet.self_link

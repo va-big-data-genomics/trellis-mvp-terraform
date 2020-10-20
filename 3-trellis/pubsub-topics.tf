@@ -96,3 +96,13 @@ resource "google_pubsub_topic" "postgres-insert-data" {
     name = "postgres-insert-data"
     labels = {user = "trellis"}
 }
+
+resource "google_pubsub_topic" "delete-blob" {
+    name = "delete-blob"
+    labels = {user = "trellis"}
+}
+
+resource "google_pubsub_topic" "launch-view-gvcf-snps" {
+    name = "view-gvcf-snps"
+    labels = {user = "trellis"}
+}

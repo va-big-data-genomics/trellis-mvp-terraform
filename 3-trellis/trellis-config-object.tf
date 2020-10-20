@@ -41,13 +41,17 @@ DSUB_SUBNETWORK: ${google_compute_subnetwork.trellis-subnet.name}
 
 # GATK $5 Pipelines variables
 GATK_MVP_DIR: workflow-inputs/gatk-mvp
-GATK_MVP_HASH: 325c68c
+GATK_MVP_HASH: ${var.gatk-mvp-hash}
 GATK_GERMLINE_DIR: gatk-mvp-pipeline
+CROMWELL_IMAGE: broadinstitute/cromwell:53
 
 # view-gvcf-snps variables
 REF_FASTA: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta
 REF_FASTA_INDEX: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta.fai
-SIGNATURES: gs://${var.project}-trellis/signatureSNPs.txt
+SIGNATURE_SNPS: gs://${var.project}-trellis/tabs2_signatureSNP_hg38.sorted.txt
+
+# Optitype variables
+CHR6_HLA_BED: gs://gbsc-gcp-project-mvp-public-resource/HLA_reference/chr6-HLA.bed
 
 # Trellis Pub/Sub topics
 TOPIC_LIST_BUCKET_PAGE: ${google_pubsub_topic.list-bucket-page.name}
@@ -67,6 +71,8 @@ TOPIC_TEXT_TO_TABLE: ${google_pubsub_topic.launch-text-to-table.name}
 TOPIC_BIGQUERY_IMPORT_CSV: ${google_pubsub_topic.bigquery-import-csv.name}
 TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
 TOPIC_POSTGRES_INSERT_DATA: ${google_pubsub_topic.postgres-insert-data.name}
+TOPIC_DELETE_BLOB: ${google_pubsub_topic.delete-blob.name}
+TOPIC_VIEW_GVCF_SNPS: ${google_pubsub_topic.launch-view-gvcf-snps.name}
 
 BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
 

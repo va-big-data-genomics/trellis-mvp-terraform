@@ -134,3 +134,33 @@ resource "google_cloudbuild_trigger" "create-node-from-phase3-data-meta" {
         _DATA_GROUP             = "${var.data-group}"
     }
 }
+
+resource "google_cloudbuild_trigger" "register-blob-deleted-from-phase3-data" {
+    provider    = google-beta
+    name        = "gcf-register-blob-deleted-from-phase3-data"
+    
+    github {
+        owner = var.github-owner
+        name  = var.github-repo
+        push  {
+            branch = var.github-branch-pattern
+        }
+    }
+    
+    included_files = [
+        "functions/register-blob-deleted/*",
+    ]
+
+    filename = "functions/register-blob-deleted/cloudbuild.yaml"
+
+    substitutions = {
+        _BUCKET_SHORT_NAME      = "phase3-data"
+        _CREDENTIALS_BLOB       = google_storage_bucket_object.trellis-config.name
+        _CREDENTIALS_BUCKET     = google_storage_bucket.trellis.name
+        _ENVIRONMENT            = "google-cloud"
+        _TRELLIS_BUCKET         = google_storage_bucket.trellis.name
+        _TRIGGER_OPERATION      = "delete"
+        _TRIGGER_RESOURCE       = "${var.project}-from-personalis-phase3-data"
+        _DATA_GROUP             = "${var.data-group}"
+    }
+}

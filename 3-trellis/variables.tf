@@ -4,7 +4,8 @@ variable "project" {
 }
 
 variable "external-bastion-ip" {
-    type = string
+   type = string
+   default = ""
 }
 
 variable "db-user" {
@@ -12,6 +13,10 @@ variable "db-user" {
 }
 
 variable "db-passphrase" {
+    type = string
+}
+
+variable "neo4j-attached-disk" {
     type = string
 }
 
@@ -63,14 +68,26 @@ variable "qc-db-pass" {
 
 variable "github-owner" {
     type = string
-    description = "Owner of the Trellis GitHub repo."
+    description = "Owner of the Trellis GitHub repository."
     default = "StanfordBioinformatics"
 }
 
 variable "github-repo" {
     type = string
-    description = "Name of the Trellis GitHub repo."
+    description = "Name of the Trellis GitHub repository."
     default = "trellis-mvp-functions"
+}
+
+variable "trellis-analysis-owner" {
+    type = string
+    description = "Owner of the Trellis analysis repository."
+    default = "StanfordBioinformatics"
+}
+
+variable "trellis-analysis-repo" {
+    type = string
+    description = "Name of Trellis analysis repo containing Jupyter notebooks to run meta analyses."
+    default = "trellis-mvp-analysis"
 }
 
 variable "github-branch-pattern" {
@@ -92,4 +109,33 @@ variable "gatk-github-repo" {
 variable "gatk-github-branch-pattern" {
     type = string
     default = "^no-address$"
+}
+
+variable "topic_labels" {
+    type        = map(string)
+    default     = {"user":"trellis", "created_by":"terraform"}
+    description = "A set of key/value label pairs to assign to the pubsub topic."
+}
+
+variable "gatk-mvp-hash" {
+    type = string
+    description = "Hash (7 char) of git commit of gatk-mvp GitHub repo to use for germline variant calling."
+}
+
+// Trellis analysis notebooks (trellis-mvp-analysis)
+variable "analysis-nb-samples" {
+    type = string
+    default = "trellis_mvp_phase3_SampleBasedAnalysis.ipynb"
+    description = "Gather sample-based metrics for phase 3 MVP WGS data."
+}
+
+variable "analysis-nb-jobs" {
+    type = string
+    default = "trellis_mvp_phase3_JobBasedAnalysis.ipynb"
+}
+
+variable "analysis-nb-qc" {
+    type = string
+    default = "trellis_mvp_phase3_QC.ipynb"
+    description = "Perform meta-analysis of QC metrics generated across samples."
 }
