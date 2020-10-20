@@ -58,7 +58,7 @@ chmod 777 /home/jupyter/cronjobs/*
 chmod 777 /home/jupyter/notebooks/*
 
 chown jupyter:jupyter /home/jupyter/.bashrc
-chown jupyter:jupyter -r /home/jupyter/*
+chown -R jupyter:jupyter /home/jupyter
 
 # Add notebook cron jobs to crontab
 crontab -u jupyter /home/jupyter/cronjobs/notebook-crons
@@ -87,7 +87,7 @@ resource "google_cloudbuild_trigger" "ai-notebooks-source" {
         }
     }
     
-    included_files = ["cloudbuild.yaml", "cronjobs/*", "notebooks/*"]
+    included_files = ["cloudbuild.yaml", "notebooks/*"]
 
     filename = "cloudbuild.yaml"
 
@@ -114,12 +114,13 @@ resource "google_storage_bucket_object" "ai-notebook-sample-cron-script" {
 
 source /home/jupyter/.bashrc
 
-gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/${var.analysis-nb-samples} /home/jupyter/notebooks/
+gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/notebooks/${var.analysis-nb-samples} /home/jupyter/notebooks/
 
 papermill \
     /home/jupyter/notebooks/${var.analysis-nb-samples} \
     gs://${google_storage_bucket.trellis.name}/analysis-notebooks/completed/${var.analysis-nb-samples} \
     -p bucket_info ${google_storage_bucket.trellis.name} \
+    -p sample_limit 24 \
     -p credential_info trellis-config.yaml
 EOT
 }
@@ -133,7 +134,7 @@ resource "google_storage_bucket_object" "ai-notebook-jobs-cron-script" {
 
 source /home/jupyter/.bashrc
 
-gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/${var.analysis-nb-jobs} /home/jupyter/notebooks/
+gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/notebooks/${var.analysis-nb-jobs} /home/jupyter/notebooks/
 
 papermill \
     /home/jupyter/notebooks/${var.analysis-nb-jobs} \
@@ -152,7 +153,7 @@ resource "google_storage_bucket_object" "ai-notebook-qc-cron-script" {
 
 source /home/jupyter/.bashrc
 
-gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/${var.analysis-nb-qc} /home/jupyter/notebooks/
+gsutil cp gs://${google_storage_bucket.trellis.name}/analysis-notebooks/source/notebooks/${var.analysis-nb-qc} /home/jupyter/notebooks/
 
 papermill \
     /home/jupyter/notebooks/${var.analysis-nb-qc} \
@@ -167,7 +168,7 @@ resource "google_storage_bucket_object" "ai-notebook-crontab" {
   name   = "analysis-notebooks/cron-scripts/notebook-crons"
   bucket = google_storage_bucket.trellis.name
   content = <<EOT
-25 * * * * /home/jupyter/cronjobs/run-sample-based-analysis.sh > /home/jupyter/cronjobs/logs/sample.log 2>&1
+*/3 * * * * /home/jupyter/cronjobs/run-sample-based-analysis.sh > /home/jupyter/cronjobs/logs/sample.log 2>&1
 50 12,0 * * * /home/jupyter/cronjobs/run-job-based-analysis.sh > /home/jupyter/cronjobs/logs/job.log 2>&1
 00 12,0 * * * /home/jupyter/cronjobs/run-qc-analysis.sh > /home/jupyter/cronjobs/logs/qc.log 2>&1
 EOT
