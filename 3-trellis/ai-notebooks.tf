@@ -11,7 +11,7 @@
 // Create AI notebook instance to run Jupyter analysis notebooks
 resource "google_notebooks_instance" "trellis-mvp-phase3-analysis" {
     provider = google-beta
-    name = "trellis-mvp-phase3-analysis"
+    name = "trellis-mvp-phase3-analysis-wgs"
     location = "us-west1-b"
     machine_type = "n1-standard-2"
 
