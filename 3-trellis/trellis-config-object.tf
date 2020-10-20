@@ -50,6 +50,9 @@ REF_FASTA: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly3
 REF_FASTA_INDEX: gs://gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.fasta.fai
 SIGNATURE_SNPS: gs://${var.project}-trellis/tabs2_signatureSNP_hg38.sorted.txt
 
+# Optitype variables
+CHR6_HLA_BED: gs://gbsc-gcp-project-mvp-public-resource/HLA_reference/chr6-HLA.bed
+
 # Trellis Pub/Sub topics
 TOPIC_LIST_BUCKET_PAGE: ${google_pubsub_topic.list-bucket-page.name}
 TOPIC_UPDATE_METADATA: ${google_pubsub_topic.update-metadata.name}
