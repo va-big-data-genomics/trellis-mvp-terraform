@@ -73,6 +73,7 @@ TOPIC_BIGQUERY_APPEND_TSV: ${google_pubsub_topic.bigquery-append-tsv.name}
 TOPIC_POSTGRES_INSERT_DATA: ${google_pubsub_topic.postgres-insert-data.name}
 TOPIC_DELETE_BLOB: ${google_pubsub_topic.delete-blob.name}
 TOPIC_VIEW_GVCF_SNPS: ${google_pubsub_topic.launch-view-gvcf-snps.name}
+TOPIC_BLOB_UPDATE_STORAGE: ${google_pubsub_topic.blob-update-storage-class.name}
 
 BIGQUERY_DATASET: ${google_bigquery_dataset.mvp.dataset_id}
 
