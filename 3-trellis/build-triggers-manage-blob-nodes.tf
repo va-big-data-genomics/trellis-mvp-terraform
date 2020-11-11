@@ -164,3 +164,51 @@ resource "google_cloudbuild_trigger" "register-blob-deleted-from-phase3-data" {
         _DATA_GROUP             = "${var.data-group}"
     }
 }
+
+resource "google_cloudbuild_trigger" "delete-blob" {
+    provider    = google-beta
+    name        = "gcf-delete-blob"
+    
+    github {
+        owner = var.github-owner
+        name  = var.github-repo
+        push  {
+            branch = var.github-branch-pattern
+        }
+    }
+    
+    included_files = [
+        "functions/delete-blob/*",
+    ]
+
+    filename = "functions/delete-blob/cloudbuild.yaml"
+
+    substitutions = {
+        _ENVIRONMENT            = "google-cloud"
+        _TRIGGER_TOPIC          = google_pubsub_topic.delete-blob.name
+    }
+}
+
+resource "google_cloudbuild_trigger" "blob-update-storage-class" {
+    provider    = google-beta
+    name        = "gcf-blob-update-storage-class"
+
+    github {
+        owner = var.github-owner
+        name  = var.github-repo
+        push  {
+            branch = var.github-branch-pattern
+        }
+    }
+
+    included_files = [
+        "functions/blob-update-storage-class/*",
+    ]
+
+    filename = "functions/blob-update-storage-class/cloudbuild.yaml"
+
+    substitutions = {
+        _ENVIRONMENT    = "google-cloud"
+        _TRIGGER_TOPIC  = google_pubsub_topic.blob-update-storage-class.name
+    }
+}

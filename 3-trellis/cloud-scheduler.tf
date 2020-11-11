@@ -194,7 +194,7 @@ resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
     "header": {
         "resource": "request",
         "method": "VIEW",
-        "labels": ['Request', 'LaunchViewSignatureSnps'],
+        "labels": ["Request", "LaunchViewSignatureSnps"],
         "sentFrom": "cron-request-launch-view-signature-snps"
     },
     "body": {
@@ -204,4 +204,35 @@ resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
 EOT
 )
     }    
+}
+
+resource "google_cloud_scheduler_job" "request-fastqs-to-coldline" {
+    region = var.app-engine-region
+
+    name = "cron-request-fastqs-to-coldline"
+    description = "Trigger blob-update-storage-class service to move fastqs from standard to coldline storage."
+    schedule = "0 9 25 12 1"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "Change", "Fastq", "Storage"],
+        "sentFrom": "cron-request-fastqs-to-coldline"
+    },
+    "body": {
+        "request": {
+            "count": "1",
+            "storage_class": "COLDLINE"
+        },
+        "results": {}
+    }
+}
+EOT
+)
+    }       
 }

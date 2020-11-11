@@ -70,24 +70,25 @@ resource "google_project_iam_binding" "pubsub" {
   ]
 }
 
-resource "google_service_account" "cloud-run-pubsub-invoker_sa" {
+resource "google_service_account" "cloud-run-pubsub-invoker-sa" {
   account_id   = "cloud-run-pubsub-invoker"
   display_name = "Cloud Run Pub/Sub Invoker"
 }
 
 // Need to import trellis-check-dstat service first
-// resource "google_cloud_run_service_iam_binding" "binding" {
-//   location = google_cloud_run_service.check-dstat.location
-//   project = google_cloud_run_service.check-dstat.project
-//   service = google_cloud_run_service.check-dstat.name
-//   role = "roles/run.invoker"
-//   members = [
-//     "serviceAccount:${google_service_account.cloud-run-pubsub-invoker_sa.email}",
-//   ]
-// }
+//resource "google_cloud_run_service_iam_binding" "binding" {
+//  location = google_cloud_run_service.check-dstat.location
+//  project = google_cloud_run_service.check-dstat.project
+//  service = google_cloud_run_service.check-dstat.name
+//  role = "roles/run.invoker"
+//  members = [
+//    "serviceAccount:${google_service_account.cloud-run-pubsub-invoker-sa.email}",
+//  ]
+//}
 
 // Add project labels. Require to import project state first.
-resource "google_project" "trellis_project" {
+// $ terraform import google_project.trellis_project {project name}
+resource "google_project" "trellis-project" {
   name       = var.project
   project_id = var.project
   labels     = {
