@@ -111,30 +111,6 @@ resource "google_cloudbuild_trigger" "db-query" {
     }
 }
 
-resource "google_cloudbuild_trigger" "delete-blob" {
-    provider    = google-beta
-    name        = "gcf-delete-blob"
-    
-    github {
-        owner = var.github-owner
-        name  = var.github-repo
-        push  {
-            branch = var.github-branch-pattern
-        }
-    }
-    
-    included_files = [
-        "functions/delete-blob/*",
-    ]
-
-    filename = "functions/delete-blob/cloudbuild.yaml"
-
-    substitutions = {
-        _ENVIRONMENT            = "google-cloud"
-        _TRIGGER_TOPIC          = google_pubsub_topic.delete-blob.name
-    }
-}
-
 resource "google_cloudbuild_trigger" "register-sample-snvqa-status" {
     provider    = google-beta
     name        = "gcf-register-sample-snvqa-status"
