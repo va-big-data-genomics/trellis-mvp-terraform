@@ -211,7 +211,7 @@ resource "google_cloud_scheduler_job" "request-fastqs-to-coldline" {
 
     name = "cron-request-fastqs-to-coldline"
     description = "Trigger blob-update-storage-class service to move fastqs from standard to coldline storage."
-    schedule = "0 9 25 12 1"
+    schedule = "*/2 * * * *"
     time_zone = "America/Los_Angeles"
 
     pubsub_target {
@@ -226,7 +226,7 @@ resource "google_cloud_scheduler_job" "request-fastqs-to-coldline" {
     },
     "body": {
         "request": {
-            "count": "1",
+            "count": "20",
             "storage_class": "COLDLINE"
         },
         "results": {}
