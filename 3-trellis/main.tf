@@ -36,12 +36,12 @@ resource "google_project_service" "sql" {
 
 // Formulate Cloud Build Service Account
 locals {
-  cloudbuild_sa =  "${google_project.trellis_project.number}@cloudbuild.gserviceaccount.com"
+  cloudbuild_sa =  "${google_project.trellis-project.number}@cloudbuild.gserviceaccount.com"
 }
 
 // Pub/Sub Service Account
 locals {
-  pubsub_sa = "service-${google_project.trellis_project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
+  pubsub_sa = "service-${google_project.trellis-project.number}@gcp-sa-pubsub.iam.gserviceaccount.com"
 }
 
 // Binding roles to service account
@@ -87,7 +87,7 @@ resource "google_service_account" "cloud-run-pubsub-invoker-sa" {
 //}
 
 // Add project labels. Require to import project state first.
-// $ terraform import google_project.trellis_project {project name}
+// $ terraform import google_project.trellis-project {project name}
 resource "google_project" "trellis-project" {
   name       = var.project
   project_id = var.project
