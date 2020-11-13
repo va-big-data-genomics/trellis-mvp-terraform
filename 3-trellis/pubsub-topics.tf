@@ -106,3 +106,8 @@ resource "google_pubsub_topic" "launch-view-gvcf-snps" {
     name = "view-gvcf-snps"
     labels = {user = "trellis"}
 }
+
+resource "google_pubsub_topic" "blob-update-storage-class" {
+    name = "blob-update-storage-class"
+    labels = {user = "trellis"}
+}
