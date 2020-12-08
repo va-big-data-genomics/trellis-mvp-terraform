@@ -156,15 +156,10 @@ In order to deploy all serverless functions managed by Cloud Build triggers, you
 
 ## I. Add database indexes.
 
-## J. Deploy Monitoring dashboard
-```
-gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
-```
-
-## K. Integrate `check-dstat` Cloud Run with Pub/Sub
+## J. Integrate `check-dstat` Cloud Run with Pub/Sub
 Follow instructions 1-3 in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
 Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
 
-## L. Add Cloud SQL Client role to Cloud Functions service account
+## K. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions
