@@ -1,10 +1,10 @@
 # trellis-mvp-terraform
-Trellis MVP Terraform configurations
+Instructions for using Terraform to deploy Trellis resources to a Google Cloud Platform (GCP) project.
 
 # Terraforming instructions
 
 ## Prerequisites 
-Before trying to use or deploy Trellis we recommend becoming knowledgable about cloud computing, networking, and Google Cloud Platform (GCP) as a whole. Using a cloud platform is different, and in many ways more complex, than using a local computer or a high-performance computing cluster. They offer a lot of functionality, but also fewer guardrails against generating massive computing bills.
+Before trying to use or deploy Trellis we recommend becoming knowledgable about cloud computing, networking, and GCP as a whole. Using a cloud platform is different, and in many ways more complex, than using a local computer or a high-performance computing cluster. They offer a lot of functionality, but also fewer guardrails against generating massive computing bills.
 
 Once you are comfortable using GCP, you will need to provision a GCP project to get started.
 
