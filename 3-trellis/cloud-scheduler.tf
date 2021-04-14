@@ -198,6 +198,7 @@ resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
         "sentFrom": "cron-request-launch-view-signature-snps"
     },
     "body": {
+        "limitCount": 5,
         "results": {}
     }
 }
