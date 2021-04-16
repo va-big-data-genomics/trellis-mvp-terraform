@@ -194,11 +194,39 @@ resource "google_cloud_scheduler_job" "request-launch-view-signature-snps" {
     "header": {
         "resource": "request",
         "method": "VIEW",
-        "labels": ["Request", "LaunchViewSignatureSnps"],
+        "labels": ["Request", "LaunchViewSignatureSnps", "MergedVcf"],
         "sentFrom": "cron-request-launch-view-signature-snps"
     },
     "body": {
         "limitCount": 5,
+        "results": {}
+    }
+}
+EOT
+)
+    }    
+}
+
+resource "google_cloud_scheduler_job" "request-launch-view-signature-snps-covid19" {
+    region = var.app-engine-region
+
+    name = "cron-request-launch-view-signature-snps-covid19"
+    description = "Launch view-gvcf-snps job to get signature SNPs from gVCF of people in the COVID-19 study."
+    schedule = "* * 15-16 4 *"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "LaunchViewSignatureSnps", "Covid19"],
+        "sentFrom": "cron-request-launch-view-signature-snps-covid19"
+    },
+    "body": {
+        "limitCount": 30,
         "results": {}
     }
 }
