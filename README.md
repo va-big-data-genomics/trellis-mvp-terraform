@@ -1,7 +1,12 @@
 # trellis-mvp-terraform
-Trellis MVP Terraform configurations
+Instructions for using Terraform to deploy Trellis resources to a Google Cloud Platform (GCP) project.
 
 # Terraforming instructions
+
+## Prerequisites 
+Before trying to use or deploy Trellis we recommend becoming knowledgable about cloud computing, networking, and GCP as a whole. Using a cloud platform is different, and in many ways more complex, than using a local computer or a high-performance computing cluster. They offer a lot of functionality, but also fewer guardrails against generating massive computing bills.
+
+Once you are comfortable using GCP, you will need to provision a GCP project to get started.
 
 ## A. Install Terraform
 https://learn.hashicorp.com/terraform/getting-started/install.html
@@ -152,19 +157,18 @@ terraform destroy --var-file=my.tfvars
 ## G. Navigate to the Cloud Build console and activate all triggers.
 In order to deploy all serverless functions managed by Cloud Build triggers, you'll have to create a new git commit or manually activate the triggers.
 
+NOTE: In the future, we plan to manage Cloud Functions directly as Terraform resources.
+
 ## H. Login to database via web browser & update username & password.
+You can access the Neo4j GUI interface by navigating to the IP of your database instance and accessing port 7474 (https://your-neo4j-ip:7474). The default credentials for neo4j are "neo4j" and "password", and you should be prompted to change them upon login.
 
 ## I. Add database indexes.
+Database indexes are used to quickly lookup nodes by metadata properties. They are resource-intensive so use them sparingly and instead use graph traversal queries to find data, when possible. Instructions for creating and managing indexes can be found here: https://neo4j.com/docs/cypher-manual/current/administration/indexes-for-search-performance/.
 
-## J. Deploy Monitoring dashboard
-```
-gcloud beta monitoring dashboards create --config-from-file dashboard.yaml --project <your-project-id>
-```
-
-## K. Integrate `check-dstat` Cloud Run with Pub/Sub
+## J. Integrate `check-dstat` Cloud Run with Pub/Sub
 Follow instructions 1-3 in the "Integrating with Pub/Sub" section of the docs: https://cloud.google.com/run/docs/tutorials/pubsub#integrating-pubsub
 
 Currently I don't think it's possible to automatically generate the pub/sub subscription since it requires Terraform to know the push endpoint of the dstat function, which is dynamically generated when the function is deployed by Cloud Build.
 
-## L. Add Cloud SQL Client role to Cloud Functions service account
+## K. Add Cloud SQL Client role to Cloud Functions service account
 https://cloud.google.com/sql/docs/mysql/connect-functions
