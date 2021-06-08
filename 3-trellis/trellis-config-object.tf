@@ -39,7 +39,11 @@ DSUB_USER: trellis
 DSUB_NETWORK: ${google_compute_network.trellis-vpc-network.name}
 DSUB_SUBNETWORK: ${google_compute_subnetwork.trellis-subnet.name}
 
+# Switch to enable event-driven variant calling workflows
+WGS_VARIANT_CALLING: True
+
 # GATK $5 Pipelines variables
+WGS_VARIANT_CALLING: False
 GATK_MVP_DIR: workflow-inputs/gatk-mvp
 GATK_MVP_HASH: ${var.gatk-mvp-hash}
 GATK_GERMLINE_DIR: gatk-mvp-pipeline
