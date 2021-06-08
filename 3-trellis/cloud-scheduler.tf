@@ -63,35 +63,60 @@ EOT
     }
 }
 
-resource "google_cloud_scheduler_job" "trigger-fq2u-covid19-25" {
+resource "google_cloud_scheduler_job" "request-fq2u-covid19" {
     region = var.app-engine-region
 
-    name = "cron-trigger-fq2u-covid19-25"
-    description = "Launch variant calling for 25 COVID19 positive samples every hour"
-    schedule = "0 * * * *"
+    name = "trellis-wgs-request-fq2u-covid19"
+    description = "Initiate variant calling workflow for people in the Covid19 study."
+    schedule = "0 9 25 12 1"
     time_zone = "America/Los_Angeles"
 
     pubsub_target {
-        topic_name = google_pubsub_topic.db-query.id
+        topic_name = google_pubsub_topic.check-triggers.id
         data = base64encode(<<EOT
 {
     "header": {
-        "resource": "query",
-            "method": "VIEW",
-            "labels": ["Sample", "COVID19", "Marker", "Cypher", "Query"],
-            "sentFrom": "cron-trigger-fq2u-covid19-25",
-            "publishTo": "${google_pubsub_topic.check-triggers.name}"
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "FastqToUbam", "Covid19"],
+        "sentFrom": "trellis-wgs-request-fq2u-covid19"
     },
-    "body": {  
-        "cypher": "MATCH (s:PersonalisSequencing:COVID19)-[:GENERATED]->(f:Fastq) WHERE s.covid19Positive=True AND NOT (f)-[:WAS_USED_BY]->(:JobRequest:FastqToUbam) WITH DISTINCT s AS node SET node:Marker, node.labels = node.labels + 'Marker' RETURN node LIMIT 25", 
-        "result-mode": "data",
-        "result-structure": "list",
-        "result-split": "True"
-  }
+    "body": {
+        "limitCount": 25,
+        "results": {}
+    }
 }
 EOT
 )
+    }    
+}
+
+resource "google_cloud_scheduler_job" "request-fq2u-all" {
+    region = var.app-engine-region
+
+    name = "trellis-wgs-request-fq2u-all"
+    description = "Initiate variant calling workflow for samples not yet called."
+    schedule = "0 9 25 12 1"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "FastqToUbam", "all"],
+        "sentFrom": "trellis-wgs-request-fq2u-all"
+    },
+    "body": {
+        "limitCount": 10,
+        "results": {}
     }
+}
+EOT
+)
+    }    
 }
 
 resource "google_cloud_scheduler_job" "trigger-relaunch-failed-gatk" {
@@ -113,6 +138,34 @@ resource "google_cloud_scheduler_job" "trigger-relaunch-failed-gatk" {
         "sentFrom": "cron-trigger-relaunch-failed-gatk"
     },
     "body": {
+        "results": {}
+    }
+}
+EOT
+)
+    }
+}
+
+resource "google_cloud_scheduler_job" "request-launch-gatk-5-dollar" {
+    region = var.app-engine-region
+
+    name = "cron-request-launch-gatk-5-dollar"
+    description = "Request germline variant calling for all samples."
+    schedule = "0 * * * *"
+    time_zone = "America/Los_Angeles"
+
+    pubsub_target {
+        topic_name = google_pubsub_topic.check-triggers.id
+        data = base64encode(<<EOT
+{
+    "header": {
+        "resource": "request",
+        "method": "VIEW",
+        "labels": ["Request", "LaunchGatk5Dollar", "All"],
+        "sentFrom": "cron-request-launch-gatk-5-dollar"
+    },
+    "body": {
+        "limitCount": 10,
         "results": {}
     }
 }
